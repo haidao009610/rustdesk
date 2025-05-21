@@ -73,7 +73,7 @@ pub mod input {
 }
 
 lazy_static::lazy_static! {
-    pub static ref SOFTWARE_UPDATE_URL: Arc<Mutex<String>> = Mutex::new("".to_string());
+    pub static ref SOFTWARE_UPDATE_URL: Arc<Mutex<String>> = Arc::new(Mutex::new("".to_string()));
     pub static ref DEVICE_ID: Arc<Mutex<String>> = Default::default();
     pub static ref DEVICE_NAME: Arc<Mutex<String>> = Default::default();
 }
