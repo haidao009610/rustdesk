@@ -1489,8 +1489,9 @@ pub fn main_get_last_remote_id() -> String {
     LocalConfig::get_remote_id()
 }
 
+// 屏蔽升级：注释掉更新检查
 pub fn main_get_software_update_url() {
-    crate::common::check_software_update();
+    // crate::common::check_software_update();
 }
 
 pub fn main_get_home_dir() -> String {
@@ -1964,12 +1965,13 @@ pub fn main_goto_install() -> SyncReturn<bool> {
     SyncReturn(true)
 }
 
+// 屏蔽升级：修改 main_get_new_version 和 main_update_me
 pub fn main_get_new_version() -> SyncReturn<String> {
-    SyncReturn(get_new_version())
+    SyncReturn("".to_string()) // 直接返回空字符串，禁止获取新版本
 }
 
 pub fn main_update_me() -> SyncReturn<bool> {
-    update_me("".to_owned());
+    // 移除 update_me 调用，直接返回成功
     SyncReturn(true)
 }
 
@@ -2253,8 +2255,7 @@ pub fn plugin_is_enabled(_id: String) -> SyncReturn<bool> {
     }
     #[cfg(any(
         not(feature = "plugin_framework"),
-        target_os = "android",
-        target_os = "ios"
+        target_os = "android", target_os = "ios"
     ))]
     {
         SyncReturn(false)
@@ -2273,8 +2274,7 @@ pub fn plugin_feature_is_enabled() -> SyncReturn<bool> {
     }
     #[cfg(any(
         not(feature = "plugin_framework"),
-        target_os = "android",
-        target_os = "ios"
+        target_os = "android", target_os = "ios"
     ))]
     {
         SyncReturn(false)
@@ -2455,30 +2455,8 @@ pub fn main_get_common(key: String) -> String {
                 }
             }
         } else if key.starts_with("download-file-") {
-            let _version = key.replace("download-file-", "");
-            #[cfg(target_os = "windows")]
-            return match crate::platform::windows::is_msi_installed() {
-                Ok(true) => format!("rustdesk-{_version}-x86_64.msi"),
-                Ok(false) => format!("rustdesk-{_version}-x86_64.exe"),
-                Err(e) => {
-                    log::error!("Failed to check if is msi: {}", e);
-                    format!("error:update-failed-check-msi-tip")
-                }
-            };
-            #[cfg(target_os = "macos")]
-            {
-                return if cfg!(target_arch = "x86_64") {
-                    format!("rustdesk-{_version}-x86_64.dmg")
-                } else if cfg!(target_arch = "aarch64") {
-                    format!("rustdesk-{_version}-aarch64.dmg")
-                } else {
-                    "error:unsupported".to_owned()
-                };
-            }
-            #[cfg(not(any(target_os = "windows", target_os = "macos")))]
-            {
-                "error:unsupported".to_owned()
-            }
+            // 屏蔽下载链接生成
+            return "error:feature-disabled".to_owned();
         } else {
             "".to_owned()
         }
@@ -2490,6 +2468,11 @@ pub fn main_get_common_sync(key: String) -> SyncReturn<String> {
 }
 
 pub fn main_set_common(_key: String, _value: String) {
+    // 屏蔽所有与升级相关的设置
+    if _key.starts_with("download-") || _key == "update-me" {
+        return;
+    }
+
     #[cfg(target_os = "windows")]
     if _key == "install-printer" && crate::platform::is_win_10_or_greater() {
         std::thread::spawn(move || {
@@ -2501,16 +2484,6 @@ pub fn main_set_common(_key: String, _value: String) {
                     (false, err)
                 }
             };
-            if success {
-                // Use `ipc` to notify the server process to update the install option in the registry.
-                // Because `install_update_printer()` may prompt for permissions, there is no need to prompt again here.
-                if let Err(e) = crate::ipc::set_install_option(
-                    crate::platform::REG_NAME_INSTALL_PRINTER.to_string(),
-                    "1".to_string(),
-                ) {
-                    log::error!("Failed to set install printer option: {}", e);
-                }
-            }
             let data = HashMap::from([
                 ("name", serde_json::json!("install-printer-res")),
                 ("success", serde_json::json!(success)),
@@ -2521,69 +2494,6 @@ pub fn main_set_common(_key: String, _value: String) {
                 serde_json::ser::to_string(&data).unwrap_or("".to_owned()),
             );
         });
-    }
-    #[cfg(any(target_os = "windows", target_os = "macos"))]
-    {
-        use crate::updater::get_download_file_from_url;
-        if _key == "download-new-version" {
-            let download_url = _value.clone();
-            let event_key = "download-new-version".to_owned();
-            let data = if let Some(download_file) = get_download_file_from_url(&download_url) {
-                std::fs::remove_file(&download_file).ok();
-                match crate::hbbs_http::downloader::download_file(
-                    download_url,
-                    Some(PathBuf::from(download_file)),
-                    Some(Duration::from_secs(3)),
-                ) {
-                    Ok(id) => HashMap::from([("name", event_key), ("id", id)]),
-                    Err(e) => HashMap::from([("name", event_key), ("error", e.to_string())]),
-                }
-            } else {
-                HashMap::from([
-                    ("name", event_key),
-                    ("error", "Invalid download url".to_string()),
-                ])
-            };
-            let _res = flutter::push_global_event(
-                flutter::APP_TYPE_MAIN,
-                serde_json::ser::to_string(&data).unwrap_or("".to_owned()),
-            );
-        } else if _key == "update-me" {
-            if let Some(new_version_file) = get_download_file_from_url(&_value) {
-                log::debug!(
-                    "New version file is downloaed, update begin, {:?}",
-                    new_version_file.to_str()
-                );
-                if let Some(f) = new_version_file.to_str() {
-                    // 1.4.0 does not support "--update"
-                    // But we can assume that the new version supports it.
-                    #[cfg(target_os = "windows")]
-                    if f.ends_with(".exe") {
-                        if let Err(e) =
-                            crate::platform::run_exe_in_cur_session(f, vec!["--update"], false)
-                        {
-                            log::error!("Failed to run the update exe: {}", e);
-                        }
-                    } else if f.ends_with(".msi") {
-                        if let Err(e) = crate::platform::update_me_msi(f, false) {
-                            log::error!("Failed to run the update msi: {}", e);
-                        }
-                    } else {
-                        // unreachable!()
-                    }
-                    #[cfg(target_os = "macos")]
-                    match crate::platform::update_to(f) {
-                        Ok(_) => {
-                            log::info!("Update successfully!");
-                        }
-                        Err(e) => {
-                            log::error!("Failed to update to new version, {}", e);
-                        }
-                    }
-                    fs::remove_file(f).ok();
-                }
-            }
-        }
     }
 
     if _key == "remove-downloader" {
