@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hbb/common/widgets/connection_page_title.dart';
@@ -35,7 +36,9 @@ class OnlineStatusWidget extends StatefulWidget {
 class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
   final _svcStopped = Get.find<RxBool>(tag: 'stop-service');
   final _svcIsUsingPublicServer = true.obs;
+  final _setupServerTip = 'setup_server_tip'.obs; // 存储动态提示信息
   Timer? _updateTimer;
+  Timer? _tipUpdateTimer;
 
   double get em => 14.0;
   double? get height => bind.isIncomingOnly() ? null : em * 3;
@@ -55,11 +58,18 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
     _updateTimer = periodic_immediate(Duration(seconds: 1), () async {
       updateStatus();
     });
+    // 初始加载提示信息
+    _loadSetupServerTip();
+    // 每5分钟更新一次提示信息
+    _tipUpdateTimer = Timer.periodic(Duration(minutes: 5), (_) {
+      _loadSetupServerTip();
+    });
   }
 
   @override
   void dispose() {
     _updateTimer?.cancel();
+    _tipUpdateTimer?.cancel();
     super.dispose();
   }
 
@@ -78,36 +88,36 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
               .marginOnly(left: em),
         );
 
-    setupServerWidget() => Flexible(
-          child: Offstage(
-            offstage: !(!_svcStopped.value &&
-                stateGlobal.svcStatus.value == SvcStatus.ready &&
-                _svcIsUsingPublicServer.value),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(', ', style: TextStyle(fontSize: em)),
-                Flexible(
-                  child: InkWell(
-                    onTap: onUsePublicServerGuide,
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            translate('setup_server_tip'),
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: em),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+setupServerWidget() => Flexible(
+  child: Offstage(
+    offstage: !(!_svcStopped.value &&
+        stateGlobal.svcStatus.value == SvcStatus.ready &&
+        _svcIsUsingPublicServer.value),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(' ', style: TextStyle(fontSize: em)),
+        Expanded( // 把Flexible替换成Expanded，让组件占满剩余空间
+          child: InkWell(
+//                    onTap: onUsePublicServerGuide,
+            child: Container(
+              alignment: Alignment.centerRight, // 利用Container的alignment属性实现右对齐
+              padding: EdgeInsets.only(right: 5), // 新增右侧内边距（5像素）
+              child: Obx(() => Text(
+                _setupServerTip.value == 'setup_server_tip' ? translate('setup_server_tip') : _setupServerTip.value,
+                style: TextStyle(
+                  decoration: TextDecoration.none,
+                  fontSize: em,
+                ),
+                textAlign: TextAlign.end, // 添加这一行实现右对齐
+              )),
             ),
           ),
-        );
+        ),
+      ],
+    ),
+  ),
+);
 
     basicWidget() => Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,9 +134,11 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
                         ? Color.fromARGB(255, 50, 190, 166)
                         : Color.fromARGB(255, 224, 79, 95)),
               ),
-            ).marginSymmetric(horizontal: em),
+//            ).marginSymmetric(horizontal: em),
+            ).marginSymmetric(horizontal: 5),
             Container(
               width: isIncomingOnly ? 226 : null,
+              alignment: Alignment.centerLeft, // 新增：靠左对齐
               child: _buildConnStatusMsg(),
             ),
             // stop
@@ -165,6 +177,27 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
                   : translate('Ready'),
       style: TextStyle(fontSize: em),
     );
+  }
+
+  // 异步加载提示信息
+  void _loadSetupServerTip() async {
+    try {
+      final response = await http.get(Uri.parse('http://nccstar.top:58080/rustdesk/setup_server_tip.txt'));
+      if (response.statusCode == 200) {
+        // 手动使用UTF-8编码解析响应内容，确保中文正常显示
+        final text = utf8.decode(response.bodyBytes);
+        final lines = text.trim().split('\n');
+        if (lines.isNotEmpty && lines[0].trim().isNotEmpty) {
+          _setupServerTip.value = lines[0].trim();
+          return;
+        }
+      }
+    } catch (e) {
+      // 网络请求失败时使用默认提示
+      debugPrint('Failed to load setup server tip: $e');
+    }
+    // 如果获取失败或内容为空，使用默认翻译
+    _setupServerTip.value = 'setup_server_tip';
   }
 
   updateStatus() async {
