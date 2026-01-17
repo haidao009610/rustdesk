@@ -1,11 +1,11 @@
 [package]
 name = "nccdesk"
 version = "1.4.5"
-authors = ["rustdesk <info@rustdesk.com>"]
+authors = ["nccdesk <info@rustdesk.com>"]
 edition = "2021"
 build= "build.rs"
-description = "RustDesk Remote Desktop"
-default-run = "rustdesk"
+description = "nccdesk Remote Desktop"
+default-run = "nccdesk"
 rust-version = "1.75"
 
 [lib]
