@@ -26,19 +26,19 @@ The best open-source remote desktop client software, written in Rust.
 
 mkdir -p "%{buildroot}/usr/share/nccdesk" && cp -r ${HBB}/flutter/build/linux/x64/release/bundle/* -t "%{buildroot}/usr/share/nccdesk"
 mkdir -p "%{buildroot}/usr/bin"
-install -Dm 644 $HBB/res/nccdesk.service -t "%{buildroot}/usr/share/nccdesk/files"
-install -Dm 644 $HBB/res/nccdesk.desktop -t "%{buildroot}/usr/share/nccdesk/files"
-install -Dm 644 $HBB/res/nccdesk-link.desktop -t "%{buildroot}/usr/share/nccdesk/files"
+install -Dm 644 $HBB/res/rustdesk.service -t "%{buildroot}/usr/share/nccdesk/files"
+install -Dm 644 $HBB/res/rustdesk.desktop -t "%{buildroot}/usr/share/nccdesk/files"
+install -Dm 644 $HBB/res/rustdesk-link.desktop -t "%{buildroot}/usr/share/nccdesk/files"
 install -Dm 644 $HBB/res/128x128@2x.png "%{buildroot}/usr/share/icons/hicolor/256x256/apps/nccdesk.png"
 install -Dm 644 $HBB/res/scalable.svg "%{buildroot}/usr/share/icons/hicolor/scalable/apps/nccdesk.svg"
 
 %files
 /usr/share/nccdesk/*
-/usr/share/nccdesk/files/nccdesk.service
+/usr/share/nccdesk/files/rustdesk.service
 /usr/share/icons/hicolor/256x256/apps/nccdesk.png
 /usr/share/icons/hicolor/scalable/apps/nccdesk.svg
-/usr/share/nccdesk/files/nccdesk.desktop
-/usr/share/nccdesk/files/nccdesk-link.desktop
+/usr/share/nccdesk/files/rustdesk.desktop
+/usr/share/nccdesk/files/rustdesk-link.desktop
 
 %changelog
 # let's skip this for now
@@ -56,9 +56,9 @@ case "$1" in
 esac
 
 %post
-cp /usr/share/nccdesk/files/nccdesk.service /etc/systemd/system/nccdesk.service
-cp /usr/share/nccdesk/files/nccdesk.desktop /usr/share/applications/
-cp /usr/share/nccdesk/files/nccdesk-link.desktop /usr/share/applications/
+cp /usr/share/nccdesk/files/rustdesk.service /etc/systemd/system/rustdesk.service
+cp /usr/share/nccdesk/files/rustdesk.desktop /usr/share/applications/
+cp /usr/share/nccdesk/files/rustdesk-link.desktop /usr/share/applications/
 ln -sf /usr/share/nccdesk/nccdesk /usr/bin/nccdesk
 systemctl daemon-reload
 systemctl enable nccdesk
@@ -71,7 +71,7 @@ case "$1" in
     # for uninstall
     systemctl stop nccdesk || true
     systemctl disable nccdesk || true
-    rm /etc/systemd/system/nccdesk.service || true
+    rm /etc/systemd/system/rustdesk.service || true
   ;;
   1)
     # for upgrade
@@ -86,8 +86,8 @@ case "$1" in
     rmdir /usr/lib/nccdesk || true
     rmdir /usr/local/nccdesk || true
     rmdir /usr/share/nccdesk || true
-    rm /usr/share/applications/nccdesk.desktop || true
-    rm /usr/share/applications/nccdesk-link.desktop || true
+    rm /usr/share/applications/rustdesk.desktop || true
+    rm /usr/share/applications/rustdesk-link.desktop || true
     update-desktop-database
   ;;
   1)

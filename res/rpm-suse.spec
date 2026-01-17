@@ -27,20 +27,20 @@ mkdir -p %{buildroot}/usr/share/icons/hicolor/256x256/apps/
 mkdir -p %{buildroot}/usr/share/icons/hicolor/scalable/apps/
 install -m 755 $HBB/target/release/nccdesk %{buildroot}/usr/bin/nccdesk
 install $HBB/libsciter-gtk.so %{buildroot}/usr/share/nccdesk/libsciter-gtk.so
-install $HBB/res/nccdesk.service %{buildroot}/usr/share/nccdesk/files/
+install $HBB/res/rustdesk.service %{buildroot}/usr/share/nccdesk/files/
 install $HBB/res/128x128@2x.png %{buildroot}/usr/share/icons/hicolor/256x256/apps/nccdesk.png
 install $HBB/res/scalable.svg %{buildroot}/usr/share/icons/hicolor/scalable/apps/nccdesk.svg
-install $HBB/res/nccdesk.desktop %{buildroot}/usr/share/nccdesk/files/
-install $HBB/res/nccdesk-link.desktop %{buildroot}/usr/share/nccdesk/files/
+install $HBB/res/rustdesk.desktop %{buildroot}/usr/share/nccdesk/files/
+install $HBB/res/rustdesk-link.desktop %{buildroot}/usr/share/nccdesk/files/
 
 %files
 /usr/bin/nccdesk
 /usr/share/nccdesk/libsciter-gtk.so
-/usr/share/nccdesk/files/nccdesk.service
+/usr/share/nccdesk/files/rustdesk.service
 /usr/share/icons/hicolor/256x256/apps/nccdesk.png
 /usr/share/icons/hicolor/scalable/apps/nccdesk.svg
-/usr/share/nccdesk/files/nccdesk.desktop
-/usr/share/nccdesk/files/nccdesk-link.desktop
+/usr/share/nccdesk/files/rustdesk.desktop
+/usr/share/nccdesk/files/rustdesk-link.desktop
 
 %changelog
 # let's skip this for now
@@ -58,9 +58,9 @@ case "$1" in
 esac
 
 %post
-cp /usr/share/nccdesk/files/nccdesk.service /etc/systemd/system/nccdesk.service
-cp /usr/share/nccdesk/files/nccdesk.desktop /usr/share/applications/
-cp /usr/share/nccdesk/files/nccdesk-link.desktop /usr/share/applications/
+cp /usr/share/nccdesk/files/rustdesk.service /etc/systemd/system/rustdesk.service
+cp /usr/share/nccdesk/files/rustdesk.desktop /usr/share/applications/
+cp /usr/share/nccdesk/files/rustdesk-link.desktop /usr/share/applications/
 systemctl daemon-reload
 systemctl enable nccdesk
 systemctl start nccdesk
@@ -72,7 +72,7 @@ case "$1" in
     # for uninstall
     systemctl stop nccdesk || true
     systemctl disable nccdesk || true
-    rm /etc/systemd/system/nccdesk.service || true
+    rm /etc/systemd/system/rustdesk.service || true
   ;;
   1)
     # for upgrade
@@ -83,8 +83,8 @@ esac
 case "$1" in
   0)
     # for uninstall
-    rm /usr/share/applications/nccdesk.desktop || true
-    rm /usr/share/applications/nccdesk-link.desktop || true
+    rm /usr/share/applications/rustdesk.desktop || true
+    rm /usr/share/applications/rustdesk-link.desktop || true
     update-desktop-database
   ;;
   1)

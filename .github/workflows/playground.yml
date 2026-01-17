@@ -110,7 +110,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           # https://gregoryszorc.com/docs/apple-codesign/stable/apple_codesign_rcodesign.html#notarizing-and-stapling
-          fileName: nccdesk.json
+          fileName: rustdesk.json
           fileDir: ${{ github.workspace }}
           encodedString: ${{ secrets.MACOS_NOTARIZE_JSON }}
 
@@ -213,7 +213,7 @@ jobs:
           create-dmg --icon "NccDesk.app" 200 190 --hide-extension "NccDesk.app" --window-size 800 400 --app-drop-link 600 185 nccdesk-${{ env.VERSION }}.dmg ./flutter/build/macos/Build/Products/Release/NccDesk.app
           codesign --force --options runtime -s ${{ secrets.MACOS_CODESIGN_IDENTITY }} --deep --strict nccdesk-${{ env.VERSION }}.dmg -vvv
           # notarize the nccdesk-${{ env.VERSION }}.dmg
-          rcodesign notary-submit --api-key-path ${{ github.workspace }}/nccdesk.json  --staple nccdesk-${{ env.VERSION }}.dmg
+          rcodesign notary-submit --api-key-path ${{ github.workspace }}/rustdesk.json  --staple nccdesk-${{ env.VERSION }}.dmg
 
       - name: Rename nccdesk
         run: |

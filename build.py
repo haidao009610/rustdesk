@@ -334,21 +334,21 @@ def build_flutter_deb(version, features):
     system2(
         f'cp -r {flutter_build_dir}/* tmpdeb/usr/share/nccdesk/')
     system2(
-        'cp ../res/nccdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
+        'cp ../res/rustdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
     system2(
         'cp ../res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/nccdesk.png')
     system2(
         'cp ../res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/nccdesk.svg')
     system2(
-        'cp ../res/nccdesk.desktop tmpdeb/usr/share/applications/nccdesk.desktop')
+        'cp ../res/rustdesk.desktop tmpdeb/usr/share/applications/rustdesk.desktop')
     system2(
-        'cp ../res/nccdesk-link.desktop tmpdeb/usr/share/applications/nccdesk-link.desktop')
+        'cp ../res/rustdesk-link.desktop tmpdeb/usr/share/applications/rustdesk-link.desktop')
     system2(
         'cp ../res/startwm.sh tmpdeb/etc/nccdesk/')
     system2(
         'cp ../res/xorg.conf tmpdeb/etc/nccdesk/')
     system2(
-        'cp ../res/pam.d/nccdesk.debian tmpdeb/etc/pam.d/nccdesk')
+        'cp ../res/pam.d/rustdesk.debian tmpdeb/etc/pam.d/nccdesk')
     system2(
         "echo \"#!/bin/sh\" >> tmpdeb/usr/share/nccdesk/files/polkit && chmod a+x tmpdeb/usr/share/nccdesk/files/polkit")
 
@@ -377,15 +377,15 @@ def build_deb_from_folder(version, binary_folder):
     system2(
         f'cp -r ../{binary_folder}/* tmpdeb/usr/share/nccdesk/')
     system2(
-        'cp ../res/nccdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
+        'cp ../res/rustdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
     system2(
         'cp ../res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/nccdesk.png')
     system2(
         'cp ../res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/nccdesk.svg')
     system2(
-        'cp ../res/nccdesk.desktop tmpdeb/usr/share/applications/nccdesk.desktop')
+        'cp ../res/rustdesk.desktop tmpdeb/usr/share/applications/rustdesk.desktop')
     system2(
-        'cp ../res/nccdesk-link.desktop tmpdeb/usr/share/applications/nccdesk-link.desktop')
+        'cp ../res/rustdesk-link.desktop tmpdeb/usr/share/applications/rustdesk-link.desktop')
     system2(
         "echo \"#!/bin/sh\" >> tmpdeb/usr/share/nccdesk/files/polkit && chmod a+x tmpdeb/usr/share/nccdesk/files/polkit")
 
@@ -606,22 +606,22 @@ def main():
                 system2('mkdir -p tmpdeb/usr/share/icons/hicolor/256x256/apps/')
                 system2('mkdir -p tmpdeb/usr/share/icons/hicolor/scalable/apps/')
                 system2(
-                    'cp res/nccdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
+                    'cp res/rustdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
                 system2(
                     'cp res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/nccdesk.png')
                 system2(
                     'cp res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/nccdesk.svg')
                 system2(
-                    'cp res/nccdesk.desktop tmpdeb/usr/share/applications/nccdesk.desktop')
+                    'cp res/rustdesk.desktop tmpdeb/usr/share/applications/rustdesk.desktop')
                 system2(
-                    'cp res/nccdesk-link.desktop tmpdeb/usr/share/applications/nccdesk-link.desktop')
+                    'cp res/rustdesk-link.desktop tmpdeb/usr/share/applications/rustdesk-link.desktop')
                 os.system('mkdir -p tmpdeb/etc/nccdesk/')
                 os.system('cp -a res/startwm.sh tmpdeb/etc/nccdesk/')
                 os.system('mkdir -p tmpdeb/etc/X11/nccdesk/')
                 os.system('cp res/xorg.conf tmpdeb/etc/X11/nccdesk/')
                 os.system('cp -a DEBIAN/* tmpdeb/DEBIAN/')
                 os.system('mkdir -p tmpdeb/etc/pam.d/')
-                os.system('cp pam.d/nccdesk.debian tmpdeb/etc/pam.d/nccdesk')
+                os.system('cp pam.d/rustdesk.debian tmpdeb/etc/pam.d/nccdesk')
                 system2('strip tmpdeb/usr/bin/nccdesk')
                 system2('mkdir -p tmpdeb/usr/share/nccdesk')
                 system2('mv tmpdeb/usr/bin/nccdesk tmpdeb/usr/share/nccdesk/')

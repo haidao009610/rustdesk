@@ -5,7 +5,7 @@
   "sdk": "org.freedesktop.Sdk",
   "command": "nccdesk",
   "cleanup": ["/include", "/lib/pkgconfig", "/share/gtk-doc"],
-  "rename-desktop-file": "nccdesk.desktop",
+  "rename-desktop-file": "rustdesk.desktop",
   "rename-icon": "nccdesk",
   "modules": [
     "shared-modules/libappindicator/libappindicator-gtk3-12.10.json",
