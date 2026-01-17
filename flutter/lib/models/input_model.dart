@@ -1689,7 +1689,7 @@ class InputModel {
       Rect rect,
       {int buttons = kPrimaryMouseButton}) {
     double minX = rect.left;
-    // https://github.com/rustdesk/rustdesk/issues/6678
+    // https://github.com/nccdesk/nccdesk/issues/6678
     // For Windows, [0,maxX], [0,maxY] should be set to enable window snapping.
     double maxX = (rect.left + rect.width) -
         (peerPlatform == kPeerPlatformWindows ? 0 : 1);

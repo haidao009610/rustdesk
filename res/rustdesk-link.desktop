@@ -1,11 +1,11 @@
 [Desktop Entry]
-Name=RustDesk
+Name=NccDesk
 NoDisplay=true
-MimeType=x-scheme-handler/rustdesk;
-TryExec=rustdesk
-Exec=rustdesk %u
-Icon=rustdesk
+MimeType=x-scheme-handler/nccdesk;
+TryExec=nccdesk
+Exec=nccdesk %u
+Icon=nccdesk
 Terminal=false
 Type=Application
 StartupNotify=false
-StartupWMClass=rustdesk
+StartupWMClass=nccdesk
