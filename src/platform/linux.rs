@@ -53,7 +53,7 @@ lazy_static::lazy_static! {
             }
         }
     };
-    // https://github.com/nccdesk/nccdesk/issues/13705
+    // https://github.com/rustdesk/rustdesk/issues/13705
     // Check if `sudo -E` actually preserves environment.
     //
     // This flag is only used by `run_as_user()` (root service -> user session). If the current process is not
@@ -778,7 +778,7 @@ pub fn start_os_service() {
         let keeps_headless = sid.is_empty() && desktop.is_headless();
         let keeps_session = sid == desktop.sid;
         if keeps_headless || keeps_session {
-            // for fixing https://github.com/nccdesk/nccdesk/issues/3129 to avoid too much dbus calling,
+            // for fixing https://github.com/rustdesk/rustdesk/issues/3129 to avoid too much dbus calling,
             sleep_millis(500);
         } else {
             sleep_millis(super::SERVICE_INTERVAL);
@@ -931,7 +931,7 @@ pub fn is_locked() -> bool {
     let values = get_values_of_seat0(&[0]);
     // Though the values can't be empty, we still add check here for safety.
     // Because we cannot guarantee whether the internal implementation will change in the future.
-    // https://github.com/nccdesk/hbb_common/blob/ebb4d4a48cf7ed6ca62e93f8ed124065c6408536/src/platform/linux.rs#L119
+    // https://github.com/rustdesk/hbb_common/blob/ebb4d4a48cf7ed6ca62e93f8ed124065c6408536/src/platform/linux.rs#L119
     if values.is_empty() {
         log::debug!("Failed to check is locked, values vector is empty.");
         return false;
@@ -1244,7 +1244,7 @@ fn get_envs<'a>(
 
 /// Deprecated: Use `get_envs` instead.
 ///
-/// https://github.com/nccdesk/nccdesk/discussions/11959
+/// https://github.com/rustdesk/rustdesk/discussions/11959
 ///
 /// **Note**: This function is retained for conservative migration. The plan is to gradually
 /// transition all callers to `get_envs` after it proves stable and reliable. Once `get_envs`
@@ -2001,7 +2001,7 @@ pub fn check_autostart_config() -> ResultType<()> {
     let app_name = crate::get_app_name().to_lowercase();
     let path = format!("{home}/.config/autostart");
     let file = format!("{path}/{app_name}.desktop");
-    // https://github.com/nccdesk/nccdesk/issues/4863
+    // https://github.com/rustdesk/rustdesk/issues/4863
     std::fs::remove_file(&file).ok();
     /*
         std::fs::create_dir_all(&path).ok();

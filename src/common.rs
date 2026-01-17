@@ -950,7 +950,7 @@ pub fn check_software_update() {
 }
 
 // No need to check `danger_accept_invalid_cert` for now.
-// Because the url is always `https://api.nccdesk.com/version/latest`.
+// Because the url is always `https://api.rustdesk.com/version/latest`.
 #[tokio::main(flavor = "current_thread")]
 pub async fn do_check_software_update() -> hbb_common::ResultType<()> {
     let (request, url) =
@@ -1090,7 +1090,7 @@ fn get_api_server_(api: String, custom: String) -> String {
 
 #[inline]
 pub fn is_public(url: &str) -> bool {
-    url.contains("nccdesk.com/") || url.ends_with("nccdesk.com")
+    url.contains("rustdesk.com/") || url.ends_with("rustdesk.com")
 }
 
 pub fn get_udp_punch_enabled() -> bool {
@@ -2469,25 +2469,25 @@ mod tests {
 
     #[test]
     fn test_is_public() {
-        // Test URLs containing "nccdesk.com/"
-        assert!(is_public("https://nccdesk.com/"));
-        assert!(is_public("https://www.nccdesk.com/"));
-        assert!(is_public("https://api.nccdesk.com/v1"));
-        assert!(is_public("https://nccdesk.com/path"));
+        // Test URLs containing "rustdesk.com/"
+        assert!(is_public("https://rustdesk.com/"));
+        assert!(is_public("https://www.rustdesk.com/"));
+        assert!(is_public("https://api.rustdesk.com/v1"));
+        assert!(is_public("https://rustdesk.com/path"));
 
-        // Test URLs ending with "nccdesk.com"
-        assert!(is_public("nccdesk.com"));
-        assert!(is_public("https://nccdesk.com"));
-        assert!(is_public("http://www.nccdesk.com"));
-        assert!(is_public("https://api.nccdesk.com"));
+        // Test URLs ending with "rustdesk.com"
+        assert!(is_public("rustdesk.com"));
+        assert!(is_public("https://rustdesk.com"));
+        assert!(is_public("http://www.rustdesk.com"));
+        assert!(is_public("https://api.rustdesk.com"));
 
         // Test non-public URLs
         assert!(!is_public("https://example.com"));
         assert!(!is_public("https://custom-server.com"));
         assert!(!is_public("http://192.168.1.1"));
         assert!(!is_public("localhost"));
-        assert!(!is_public("https://nccdesk.computer.com"));
-        assert!(!is_public("nccdesk.comhello.com"));
+        assert!(!is_public("https://rustdesk.computer.com"));
+        assert!(!is_public("rustdesk.comhello.com"));
     }
 
     #[test]

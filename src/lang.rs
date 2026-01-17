@@ -190,7 +190,7 @@ pub fn translate_locale(name: String, locale: &str) -> String {
                 if !app_name.contains("NccDesk") {
                     s = s.replace("NccDesk", &app_name);
                 } else {
-                    // https://github.com/nccdesk/nccdesk-server-pro/issues/845
+                    // https://github.com/rustdesk/nccdesk-server-pro/issues/845
                     // If app_name contains "NccDesk" (e.g., "NccDesk-Admin"), we need to avoid
                     // replacing "NccDesk" within the already-substituted app_name, which would
                     // cause duplication like "NccDesk-Admin" -> "NccDesk-Admin-Admin".

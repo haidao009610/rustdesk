@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  RUST_VERSION: "1.75" # https://github.com/nccdesk/nccdesk/discussions/7503
+  RUST_VERSION: "1.75" # https://github.com/rustdesk/rustdesk/discussions/7503
   CARGO_NDK_VERSION: "3.1.2"
   LLVM_VERSION: "15.0.6"
   FLUTTER_VERSION: "3.22.2"
@@ -338,7 +338,7 @@ jobs:
         shell: bash
         run: |
           pushd /opt
-          git clone https://github.com/nccdesk-org/nccdesk_thirdparty_lib.git --depth=1
+          git clone https://github.com/rustdesk-org/nccdesk_thirdparty_lib.git --depth=1
           ls -ls /opt/artifacts/vcpkg/installed/arm64-android/lib/
           # cp -rf /opt/nccdesk_thirdparty_lib/vcpkg/* /opt/artifacts/vcpkg/
           ls -ls /opt/artifacts/vcpkg/installed/arm64-android/lib/

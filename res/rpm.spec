@@ -3,8 +3,8 @@ Version:    1.4.5
 Release:    0
 Summary:    RPM package
 License:    GPL-3.0
-URL:        https://nccdesk.com
-Vendor:     nccdesk <info@nccdesk.com>
+URL:        https://rustdesk.com
+Vendor:     nccdesk <info@rustdesk.com>
 Requires:   gtk3 libxcb libxdo libXfixes alsa-lib libva2 pam gstreamer1-plugins-base
 Recommends: libayatana-appindicator-gtk3
 

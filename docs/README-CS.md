@@ -6,21 +6,21 @@
   <a href="#file-structure">Struktura</a> •
   <a href="#snapshot">Ukázky</a><br>
   [<a href="../README.md">English</a>] | [<a href="README-UA.md">Українська</a>] | [<a href="README-ZH.md">中文</a>] | [<a href="README-HU.md">Magyar</a>] | [<a href="README-ES.md">Español</a>] | [<a href="README-FA.md">فارسی</a>] | [<a href="README-FR.md">Français</a>] | [<a href="README-DE.md">Deutsch</a>] | [<a href="README-PL.md">Polski</a>] | [<a href="README-ID.md">Indonesian</a>] | [<a href="README-FI.md">Suomi</a>] | [<a href="README-ML.md">മലയാളം</a>] | [<a href="README-JP.md">日本語</a>] | [<a href="README-NL.md">Nederlands</a>] | [<a href="README-IT.md">Italiano</a>] | [<a href="README-RU.md">Русский</a>] | [<a href="README-PTBR.md">Português (Brasil)</a>] | [<a href="README-EO.md">Esperanto</a>] | [<a href="README-KR.md">한국어</a>] | [<a href="README-AR.md">العربي</a>] | [<a href="README-VN.md">Tiếng Việt</a>] | [<a href="README-GR.md">Ελληνικά</a>]<br>
-  <b>Potřebujeme Vaši pomoc s překladem tohoto README, <a href="https://github.com/nccdesk/nccdesk/tree/master/src/lang">uživatelského rozhraní aplikace NccDesk</a> a <a href="https://github.com/nccdesk/doc.nccdesk.com">dokumentace k ní</a> do vašeho jazyka</b>
+  <b>Potřebujeme Vaši pomoc s překladem tohoto README, <a href="https://github.com/rustdesk/rustdesk/tree/master/src/lang">uživatelského rozhraní aplikace NccDesk</a> a <a href="https://github.com/rustdesk/doc.rustdesk.com">dokumentace k ní</a> do vašeho jazyka</b>
 </p>
 
 Popovídejte si s námi: [Discord](https://discord.gg/nDceKgxnkV) | [Twitter](https://twitter.com/nccdesk) | [Reddit](https://www.reddit.com/r/nccdesk) | [YouTube](https://www.youtube.com/@nccdesk)
 
 
-[![NccDesk Server Pro](https://img.shields.io/badge/NccDesk%20Server%20Pro-Pokro%C4%8Dil%C3%A9%20Funkce-blue)](https://nccdesk.com/pricing.html)
+[![NccDesk Server Pro](https://img.shields.io/badge/NccDesk%20Server%20Pro-Pokro%C4%8Dil%C3%A9%20Funkce-blue)](https://rustdesk.com/pricing.html)
 
-Zase další software pro přístup k ploše na dálku, naprogramovaný v jazyce Rust. Funguje hned tak, jak je – není třeba žádného nastavování. Svá data máte ve svých rukách, bez obav o zabezpečení. Je možné používat námi poskytovaný propojovací/předávací (relay) server, [vytvořit si svůj vlastní](https://nccdesk.com/server), nebo [si dokonce svůj vlastní naprogramovat](https://github.com/nccdesk/nccdesk-server-demo), budete-li chtít.
+Zase další software pro přístup k ploše na dálku, naprogramovaný v jazyce Rust. Funguje hned tak, jak je – není třeba žádného nastavování. Svá data máte ve svých rukách, bez obav o zabezpečení. Je možné používat námi poskytovaný propojovací/předávací (relay) server, [vytvořit si svůj vlastní](https://rustdesk.com/server), nebo [si dokonce svůj vlastní naprogramovat](https://github.com/rustdesk/nccdesk-server-demo), budete-li chtít.
 
 Projekt NccDesk vítá přiložení ruky k dílu od každého. Jak začít se dozvíte z [`docs/CONTRIBUTING.md`](CONTRIBUTING.md).
 
-[**Jak NccDesk funguje?**](https://github.com/nccdesk/nccdesk/wiki/How-does-NccDesk-work%3F)
+[**Jak NccDesk funguje?**](https://github.com/rustdesk/rustdesk/wiki/How-does-NccDesk-work%3F)
 
-[**STAHOVÁNÍ ZKOMPILOVANÝCH APLIKACÍ**](https://github.com/nccdesk/nccdesk/releases)
+[**STAHOVÁNÍ ZKOMPILOVANÝCH APLIKACÍ**](https://github.com/rustdesk/rustdesk/releases)
 
 ## Softwarové součásti, na kterých závisí
 
@@ -43,7 +43,7 @@ Varianta pro mobilní platformy používá aplikační rámec (framework) Flutte
 
 - spusťte `cargo run`
 
-## [Sestavení ze zdrojových kódů](https://nccdesk.com/docs/en/dev/build/)
+## [Sestavení ze zdrojových kódů](https://rustdesk.com/docs/en/dev/build/)
 
 ## Jak zkompilovat na Linuxu
 
@@ -95,7 +95,7 @@ cd
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
-git clone https://github.com/nccdesk/nccdesk
+git clone https://github.com/rustdesk/nccdesk
 cd nccdesk
 mkdir -p target/debug
 wget https://raw.githubusercontent.com/c-smile/sciter-sdk/master/bin.lnx/x64/libsciter-gtk.so
@@ -108,7 +108,7 @@ VCPKG_ROOT=$HOME/vcpkg cargo run
 Začněte tím, že si naklonujete tento repozitář a sestavíte docker kontejner:
 
 ```sh
-git clone https://github.com/nccdesk/nccdesk
+git clone https://github.com/rustdesk/nccdesk
 cd nccdesk
 docker build -t "nccdesk-builder" .
 ```
@@ -135,16 +135,16 @@ Ujistěte se, že tyto příkazy spouštíte z kořenového adresáře NccDesk, 
 
 ## Struktura souborů
 
-- **[libs/hbb_common](https://github.com/nccdesk/nccdesk/tree/master/libs/hbb_common)**: kodek videa, nastavení, obalovaní tcp/udp, vyrovnávací paměť protokolu, funkce souborového systému pro přenos souborů a pár dalších podpůrných funkcí
-- **[libs/scrap](https://github.com/nccdesk/nccdesk/tree/master/libs/scrap)**: zachytávání obsahu obrazovky
-- **[libs/enigo](https://github.com/nccdesk/nccdesk/tree/master/libs/enigo)**: ovládání klávesnice/myši pro jednotlivé platformy
-- **[src/ui](https://github.com/nccdesk/nccdesk/tree/master/src/ui)**: grafické uživatelské rozhraní
-- **[src/server](https://github.com/nccdesk/nccdesk/tree/master/src/server)**: služby pro zvuk/schránku/zadávání/video a síťová spojení
-- **[src/client.rs](https://github.com/nccdesk/nccdesk/tree/master/src/client.rs)**: spouští připojení k protějšku
-- **[src/rendezvous_mediator.rs](https://github.com/nccdesk/nccdesk/tree/master/src/rendezvous_mediator.rs)**: komunikace s [nccdesk-server](https://github.com/nccdesk/nccdesk-server), očekávání vzdálených příméhých („proděrováváním“ TCP) nebo předávaných (relay) spojení
-- **[src/platform](https://github.com/nccdesk/nccdesk/tree/master/src/platform)**: zdrojové kódy, specifické pro jednotlivé platformy
-- **[flutter](https://github.com/nccdesk/nccdesk/tree/master/flutter)**: zdrojové kódy pro použití s aplikačním rámcem (framework) Flutter pro mobilní platformy
-- **[flutter/web/js](https://github.com/nccdesk/nccdesk/tree/master/flutter/web/js)**: Javascript pro Flutter webový klient
+- **[libs/hbb_common](https://github.com/rustdesk/rustdesk/tree/master/libs/hbb_common)**: kodek videa, nastavení, obalovaní tcp/udp, vyrovnávací paměť protokolu, funkce souborového systému pro přenos souborů a pár dalších podpůrných funkcí
+- **[libs/scrap](https://github.com/rustdesk/rustdesk/tree/master/libs/scrap)**: zachytávání obsahu obrazovky
+- **[libs/enigo](https://github.com/rustdesk/rustdesk/tree/master/libs/enigo)**: ovládání klávesnice/myši pro jednotlivé platformy
+- **[src/ui](https://github.com/rustdesk/rustdesk/tree/master/src/ui)**: grafické uživatelské rozhraní
+- **[src/server](https://github.com/rustdesk/rustdesk/tree/master/src/server)**: služby pro zvuk/schránku/zadávání/video a síťová spojení
+- **[src/client.rs](https://github.com/rustdesk/rustdesk/tree/master/src/client.rs)**: spouští připojení k protějšku
+- **[src/rendezvous_mediator.rs](https://github.com/rustdesk/rustdesk/tree/master/src/rendezvous_mediator.rs)**: komunikace s [nccdesk-server](https://github.com/rustdesk/nccdesk-server), očekávání vzdálených příméhých („proděrováváním“ TCP) nebo předávaných (relay) spojení
+- **[src/platform](https://github.com/rustdesk/rustdesk/tree/master/src/platform)**: zdrojové kódy, specifické pro jednotlivé platformy
+- **[flutter](https://github.com/rustdesk/rustdesk/tree/master/flutter)**: zdrojové kódy pro použití s aplikačním rámcem (framework) Flutter pro mobilní platformy
+- **[flutter/web/js](https://github.com/rustdesk/rustdesk/tree/master/flutter/web/js)**: Javascript pro Flutter webový klient
 
 ## Ukázky
 
