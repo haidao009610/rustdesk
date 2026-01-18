@@ -11,7 +11,7 @@
   <summary>Secure remote desktop access</summary>
   <description>
     <p>
-        RustDesk is a full-featured open source remote control alternative for self-hosting and security with minimal configuration.
+        NccDesk is a full-featured open source remote control alternative for self-hosting and security with minimal configuration.
     </p>
     <ul>
       <li> Works on Windows, macOS, Linux, iOS, Android, Web. </li>

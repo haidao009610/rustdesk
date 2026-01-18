@@ -9,8 +9,8 @@ ExecStart=/usr/bin/nccdesk --service
 # kill --tray and --server both
 ExecStop=pkill -f "nccdesk --"
 # below two lines do not work, have to use above one line
-#ExecStop=pkill -f "rustdesk --tray"
-#ExecStop=pkill -f "rustdesk --server"
+#ExecStop=pkill -f "nccdesk --tray"
+#ExecStop=pkill -f "nccdesk --server"
 PIDFile=/run/nccdesk.pid
 KillMode=mixed
 TimeoutStopSec=30

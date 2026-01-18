@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../res/logo-header.svg" alt="RustDesk - desktopul tău la distanță"><br>
+  <img src="../res/logo-header.svg" alt="NccDesk - desktopul tău la distanță"><br>
   <a href="../README.md#raw-steps-to-build">Construire</a> •
   <a href="../README.md#how-to-build-with-docker">Docker</a> •
   <a href="../README.md#file-structure">Structură</a> •
@@ -10,18 +10,18 @@
 
 > [!Atenție]
 > **Declinare de responsabilitate privind utilizarea abuzivă:** <br>
-> Dezvoltatorii RustDesk nu susțin sau aprobă utilizarea neetică sau ilegală a acestui software. Utilizarea abuzivă, cum ar fi accesul neautorizat, controlul sau invadarea intimității, este strict împotriva regulilor noastre. Autorii nu sunt responsabili pentru utilizarea necorespunzătoare a aplicației.
+> Dezvoltatorii NccDesk nu susțin sau aprobă utilizarea neetică sau ilegală a acestui software. Utilizarea abuzivă, cum ar fi accesul neautorizat, controlul sau invadarea intimității, este strict împotriva regulilor noastre. Autorii nu sunt responsabili pentru utilizarea necorespunzătoare a aplicației.
 
 
 Conversați cu noi: [Discord](https://discord.gg/nDceKgxnkV) | [Twitter](https://twitter.com/rustdesk) | [Reddit](https://www.reddit.com/r/rustdesk) | [YouTube](https://www.youtube.com/@rustdesk)
 
-[![RustDesk Server Pro](https://img.shields.io/badge/RustDesk%20Server%20Pro-Advanced%20Features-blue)](https://rustdesk.com/pricing.html)
+[![NccDesk Server Pro](https://img.shields.io/badge/RustDesk%20Server%20Pro-Advanced%20Features-blue)](https://rustdesk.com/pricing.html)
 
 Încă o soluție de desktop la distanță scrisă în Rust. Funcționează imediat, fără configurare necesară. Ai control total asupra datelor tale, fără probleme de securitate. Poți folosi serverul nostru de rendezvous/relay, [să-ți configurezi propriul server](https://rustdesk.com/server) sau [să scrii propriul server de rendezvous/relay](https://github.com/rustdesk/rustdesk-server-demo).
 
 ![imagine](https://user-images.githubusercontent.com/71636191/171661982-430285f0-2e12-4b1d-9957-4a58e375304d.png)
 
-RustDesk primește contribuții de la oricine. Vezi [CONTRIBUTING.md](../docs/CONTRIBUTING.md) pentru ajutor la început.
+NccDesk primește contribuții de la oricine. Vezi [CONTRIBUTING.md](../docs/CONTRIBUTING.md) pentru ajutor la început.
 
 [**ÎNTREBĂRI FRECVENTE (FAQ)**](https://github.com/rustdesk/rustdesk/wiki/FAQ)
 
@@ -118,7 +118,7 @@ cd
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 git clone --recurse-submodules https://github.com/rustdesk/rustdesk
-cd rustdesk
+cd nccdesk
 mkdir -p target/debug
 wget https://raw.githubusercontent.com/c-smile/sciter-sdk/master/bin.lnx/x64/libsciter-gtk.so
 mv libsciter-gtk.so target/debug
@@ -131,30 +131,30 @@ VCPKG_ROOT=$HOME/vcpkg cargo run
 
 ```sh
 git clone https://github.com/rustdesk/rustdesk
-cd rustdesk
+cd nccdesk
 git submodule update --init --recursive
-docker build -t "rustdesk-builder" .
+docker build -t "nccdesk-builder" .
 ```
 
 Apoi, de fiecare dată când trebuie să construiești aplicația, rulează comanda următoare:
 
 ```sh
-docker run --rm -it -v $PWD:/home/user/rustdesk -v rustdesk-git-cache:/home/user/.cargo/git -v rustdesk-registry-cache:/home/user/.cargo/registry -e PUID="$(id -u)" -e PGID="$(id -g)" rustdesk-builder
+docker run --rm -it -v $PWD:/home/user/nccdesk -v nccdesk-git-cache:/home/user/.cargo/git -v nccdesk-registry-cache:/home/user/.cargo/registry -e PUID="$(id -u)" -e PGID="$(id -g)" nccdesk-builder
 ```
 
 Reține că prima construire poate dura mai mult până când dependențele sunt în cache; construirile ulterioare vor fi mai rapide. De asemenea, dacă trebuie să specifici argumente diferite comenzii de build, le poți adăuga la finalul comenzii în poziția `<OPTIONAL-ARGS>`. De exemplu, pentru a construi o versiune optimizată de release, adaugă `--release`. Executabilul rezultat va fi disponibil în folderul `target` pe sistemul tău, și poate fi rulat cu:
 
 ```sh
-target/debug/rustdesk
+target/debug/nccdesk
 ```
 
 Sau, dacă rulezi un executabil release:
 
 ```sh
-target/release/rustdesk
+target/release/nccdesk
 ```
 
-Asigură-te că rulezi aceste comenzi din rădăcina repository-ului RustDesk, altfel aplicația poate să nu găsească resursele necesare. De asemenea, reține că alte subcomenzi cargo, cum ar fi `install` sau `run`, nu sunt acceptate în prezent prin această metodă, deoarece ar instala sau rula programul în interiorul containerului în loc de gazdă.
+Asigură-te că rulezi aceste comenzi din rădăcina repository-ului NccDesk, altfel aplicația poate să nu găsească resursele necesare. De asemenea, reține că alte subcomenzi cargo, cum ar fi `install` sau `run`, nu sunt acceptate în prezent prin această metodă, deoarece ar instala sau rula programul în interiorul containerului în loc de gazdă.
 
 ## Structura fișierelor
 
@@ -165,7 +165,7 @@ Asigură-te că rulezi aceste comenzi din rădăcina repository-ului RustDesk, a
 - **[src/ui](https://github.com/rustdesk/rustdesk/tree/master/src/ui)**: interfață Sciter învechită (depreciată)
 - **[src/server](https://github.com/rustdesk/rustdesk/tree/master/src/server)**: servicii audio/clipboard/input/video și conexiuni de rețea
 - **[src/client.rs](https://github.com/rustdesk/rustdesk/tree/master/src/client.rs)**: inițiază o conexiune peer
-- **[src/rendezvous_mediator.rs](https://github.com/rustdesk/rustdesk/tree/master/src/rendezvous_mediator.rs)**: comunică cu [rustdesk-server](https://github.com/rustdesk/rustdesk-server), așteaptă conexiune directă remote (TCP hole punching) sau prin relay
+- **[src/rendezvous_mediator.rs](https://github.com/rustdesk/rustdesk/tree/master/src/rendezvous_mediator.rs)**: comunică cu [nccdesk-server](https://github.com/rustdesk/rustdesk-server), așteaptă conexiune directă remote (TCP hole punching) sau prin relay
 - **[src/platform](https://github.com/rustdesk/rustdesk/tree/master/src/platform)**: cod specific platformei
 - **[flutter](https://github.com/rustdesk/rustdesk/tree/master/flutter)**: cod Flutter pentru desktop și mobil
 - **[flutter/web/js](https://github.com/rustdesk/rustdesk/tree/master/flutter/web/v1/js)**: JavaScript pentru clientul Flutter web

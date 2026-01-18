@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../res/logo-header.svg" alt="RustDesk - Your remote desktop"><br>
+  <img src="../res/logo-header.svg" alt="NccDesk - Your remote desktop"><br>
   <a href="#빌드를 위한 원시 단계">빌드</a> •
   <a href="#Docker로 빌드하는 방법">Docker</a> •
   <a href="#파일 구조">구조</a> •
@@ -10,18 +10,18 @@
 
 > [!Caution]
 > **오용 면책 조항:** <br>
-> RustDesk의 개발자는 이 소프트웨어의 비윤리적 또는 불법적인 사용을 묵인하거나 지원하지 않습니다. 무단 액세스, 제어 또는 개인정보 침해와 같은 오용은 엄격하게 당사의 지침에 위배됩니다. 작성자는 응용 프로그램의 오용에 대해 책임을 지지 않습니다.
+> NccDesk의 개발자는 이 소프트웨어의 비윤리적 또는 불법적인 사용을 묵인하거나 지원하지 않습니다. 무단 액세스, 제어 또는 개인정보 침해와 같은 오용은 엄격하게 당사의 지침에 위배됩니다. 작성자는 응용 프로그램의 오용에 대해 책임을 지지 않습니다.
 
 
 우리와 채팅: [Discord](https://discord.gg/nDceKgxnkV) | [Twitter](https://twitter.com/rustdesk) | [Reddit](https://www.reddit.com/r/rustdesk) | [YouTube](https://www.youtube.com/@rustdesk)
 
-[![RustDesk Server Pro](https://img.shields.io/badge/RustDesk%20Server%20Pro-%EA%B3%A0%EA%B8%89%20%EA%B8%B0%EB%8A%A5-blue)](https://rustdesk.com/pricing.html)
+[![NccDesk Server Pro](https://img.shields.io/badge/RustDesk%20Server%20Pro-%EA%B3%A0%EA%B8%89%20%EA%B8%B0%EB%8A%A5-blue)](https://rustdesk.com/pricing.html)
 
 또 하나의 원격 데스크톱 솔루션으로, Rust로 작성되었습니다. 별도의 설정 없이 바로 사용할 수 있습니다. 데이터에 대한 완전한 통제권을 가지며 보안에 대한 걱정이 없습니다. 저희 랑데부/릴레이 서버를 사용하거나, [직접 설정](https://rustdesk.com/server)하거나, [자신만의 랑데부/릴레이 서버를 작성](https://github.com/rustdesk/rustdesk-server-demo)할 수 있습니다.
 
 ![image](https://user-images.githubusercontent.com/71636191/171661982-430285f0-2e12-4b1d-9957-4a58e375304d.png)
 
-RustDesk는 모든 분들의 기여를 환영합니다. 시작하는 데 도움이 필요하면 [CONTRIBUTING-KR.md](CONTRIBUTING-KR.md)를 참조하세요.
+NccDesk는 모든 분들의 기여를 환영합니다. 시작하는 데 도움이 필요하면 [CONTRIBUTING-KR.md](CONTRIBUTING-KR.md)를 참조하세요.
 
 [**자주 묻는 질문**](https://github.com/rustdesk/rustdesk/wiki/FAQ)
 
@@ -118,7 +118,7 @@ cd
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 git clone --recurse-submodules https://github.com/rustdesk/rustdesk
-cd rustdesk
+cd nccdesk
 mkdir -p target/debug
 wget https://raw.githubusercontent.com/c-smile/sciter-sdk/master/bin.lnx/x64/libsciter-gtk.so
 mv libsciter-gtk.so target/debug
@@ -131,30 +131,30 @@ VCPKG_ROOT=$HOME/vcpkg cargo run
 
 ```sh
 git clone https://github.com/rustdesk/rustdesk
-cd rustdesk
+cd nccdesk
 git submodule update --init --recursive
-docker build -t "rustdesk-builder" .
+docker build -t "nccdesk-builder" .
 ```
 
 그런 다음 응용 프로그램을 빌드해야 할 때마다 다음 명령을 실행합니다:
 
 ```sh
-docker run --rm -it -v $PWD:/home/user/rustdesk -v rustdesk-git-cache:/home/user/.cargo/git -v rustdesk-registry-cache:/home/user/.cargo/registry -e PUID="$(id -u)" -e PGID="$(id -g)" rustdesk-builder
+docker run --rm -it -v $PWD:/home/user/nccdesk -v nccdesk-git-cache:/home/user/.cargo/git -v nccdesk-registry-cache:/home/user/.cargo/registry -e PUID="$(id -u)" -e PGID="$(id -g)" nccdesk-builder
 ```
 
 첫 번째 빌드는 종속성이 캐시되기까지 시간이 오래 걸릴 수 있으며, 이후 빌드는 더 빨라집니다. 또한 빌드 명령에 다른 인수를 지정해야 하는 경우 명령 끝의 `<OPTIONAL-ARGS>` 위치에 인수를 지정할 수 있습니다. 예를 들어 최적화된 릴리스 버전을 빌드하려면 위의 명령 뒤에 `--release`를 추가하면 됩니다. 결과 실행 파일은 시스템의 대상 폴더에서 사용할 수 있으며 실행할 수 있습니다::
 
 ```sh
-target/debug/rustdesk
+target/debug/nccdesk
 ```
 
 또는 릴리스 실행 파일을 실행하는 경우:
 
 ```sh
-target/release/rustdesk
+target/release/nccdesk
 ```
 
-RustDesk 리포지토리의 루트에서 이러한 명령을 실행하고 있는지 확인하세요. 그렇지 않으면 응용 프로그램이 필요한 리소스를 찾지 못할 수 있습니다. 또한 `install` 또는 `run` 과 같은 다른 cargo 하위 명령은 호스트가 아닌 컨테이너 내부에 프로그램을 설치하거나 실행하므로 현재 이 방법을 통해 지원되지 않는다는 점에 유의하세요.
+NccDesk 리포지토리의 루트에서 이러한 명령을 실행하고 있는지 확인하세요. 그렇지 않으면 응용 프로그램이 필요한 리소스를 찾지 못할 수 있습니다. 또한 `install` 또는 `run` 과 같은 다른 cargo 하위 명령은 호스트가 아닌 컨테이너 내부에 프로그램을 설치하거나 실행하므로 현재 이 방법을 통해 지원되지 않는다는 점에 유의하세요.
 
 ## 파일 구조
 
@@ -165,7 +165,7 @@ RustDesk 리포지토리의 루트에서 이러한 명령을 실행하고 있는
 - **[src/ui](https://github.com/rustdesk/rustdesk/tree/master/src/ui)**: 더 이상 사용되지 않는 Sciter UI (지원 중단)
 - **[src/server](https://github.com/rustdesk/rustdesk/tree/master/src/server)**: 오디오/클립보드/입력/비디오 서비스 및 네트워크 연결
 - **[src/client.rs](https://github.com/rustdesk/rustdesk/tree/master/src/client.rs)**: 피어 연결 시작
-- **[src/rendezvous_mediator.rs](https://github.com/rustdesk/rustdesk/tree/master/src/rendezvous_mediator.rs)**: [rustdesk-server](https://github.com/rustdesk/rustdesk-server)와 통신, 원격 다이렉트 (TCP 홀 펀칭) 또는 릴레이 연결 대기
+- **[src/rendezvous_mediator.rs](https://github.com/rustdesk/rustdesk/tree/master/src/rendezvous_mediator.rs)**: [nccdesk-server](https://github.com/rustdesk/rustdesk-server)와 통신, 원격 다이렉트 (TCP 홀 펀칭) 또는 릴레이 연결 대기
 - **[src/platform](https://github.com/rustdesk/rustdesk/tree/master/src/platform)**: 플랫폼별 코드
 - **[flutter](https://github.com/rustdesk/rustdesk/tree/master/flutter)**: 데스크톱 및 모바일용 Flutter 코드
 - **[flutter/web/js](https://github.com/rustdesk/rustdesk/tree/master/flutter/web/v1/js)**: Flutter 웹 클라이언트용 JavaScript
