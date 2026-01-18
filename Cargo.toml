@@ -5,6 +5,7 @@ authors = ["rustdesk <info@rustdesk.com>"]
 edition = "2021"
 build= "build.rs"
 description = "RustDesk Remote Desktop"
+default-run = "NccDesk"
 rust-version = "1.75"
 
 [lib]
@@ -22,7 +23,6 @@ path = "src/service.rs"
 [[bin]]
 name = "NccDesk"
 path = "src/main.rs"
-default-run = "NccDesk"
 
 [features]
 inline = []
