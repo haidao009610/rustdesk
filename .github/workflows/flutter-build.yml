@@ -314,7 +314,7 @@ jobs:
           submodules: recursive
 
       - name: Install LLVM and Clang
-        uses: nccdesk-org/install-llvm-action-32bit@master
+        uses: rustdesk-org/install-llvm-action-32bit@master
         with:
           version: ${{ env.LLVM_VERSION }}
 
