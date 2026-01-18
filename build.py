@@ -14,7 +14,7 @@ from pathlib import Path
 windows = platform.platform().startswith('Windows')
 osx = platform.platform().startswith(
     'Darwin') or platform.platform().startswith("macOS")
-hbb_name = 'nccdesk' + ('.exe' if windows else '')
+hbb_name = 'rustdesk' + ('.exe' if windows else '')
 exe_path = 'target/release/' + hbb_name
 if windows:
     flutter_build_dir = 'build/windows/x64/runner/Release/'
@@ -182,7 +182,7 @@ def generate_build_script_for_docker():
             vcpkg/bootstrap-vcpkg.sh
             popd
             $VCPKG_ROOT/vcpkg install --x-install-root="$VCPKG_ROOT/installed"
-            # build nccdesk
+            # build rustdesk
             ./build.py --flutter --hwcodec
         ''')
     system2("chmod +x /tmp/build.sh")
@@ -292,12 +292,12 @@ def generate_control_file(version):
     control_file_path = "../res/DEBIAN/control"
     system2('/bin/rm -rf %s' % control_file_path)
 
-    content = """Package: nccdesk
+    content = """Package: rustdesk
 Section: net
 Priority: optional
 Version: %s
 Architecture: %s
-Maintainer: nccdesk <info@nccdesk.com>
+Maintainer: rustdesk <info@rustdesk.com>
 Homepage: https://rustdesk.com
 Depends: libgtk-3-0, libxcb-randr0, libxdo3, libxfixes3, libxcb-shape0, libxcb-xfixes0, libasound2, libsystemd0, curl, libva2, libva-drm2, libva-x11-2, libgstreamer-plugins-base1.0-0, libpam0g, gstreamer1.0-pipewire%s
 Recommends: libayatana-appindicator3-1
@@ -322,82 +322,82 @@ def build_flutter_deb(version, features):
     os.chdir('flutter')
     system2('flutter build linux --release')
     system2('mkdir -p tmpdeb/usr/bin/')
-    system2('mkdir -p tmpdeb/usr/share/nccdesk')
-    system2('mkdir -p tmpdeb/etc/nccdesk/')
+    system2('mkdir -p tmpdeb/usr/share/rustdesk')
+    system2('mkdir -p tmpdeb/etc/rustdesk/')
     system2('mkdir -p tmpdeb/etc/pam.d/')
-    system2('mkdir -p tmpdeb/usr/share/nccdesk/files/systemd/')
+    system2('mkdir -p tmpdeb/usr/share/rustdesk/files/systemd/')
     system2('mkdir -p tmpdeb/usr/share/icons/hicolor/256x256/apps/')
     system2('mkdir -p tmpdeb/usr/share/icons/hicolor/scalable/apps/')
     system2('mkdir -p tmpdeb/usr/share/applications/')
     system2('mkdir -p tmpdeb/usr/share/polkit-1/actions')
-    system2('rm tmpdeb/usr/bin/nccdesk || true')
+    system2('rm tmpdeb/usr/bin/rustdesk || true')
     system2(
-        f'cp -r {flutter_build_dir}/* tmpdeb/usr/share/nccdesk/')
+        f'cp -r {flutter_build_dir}/* tmpdeb/usr/share/rustdesk/')
     system2(
-        'cp ../res/nccdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
+        'cp ../res/rustdesk.service tmpdeb/usr/share/rustdesk/files/systemd/')
     system2(
-        'cp ../res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/nccdesk.png')
+        'cp ../res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/rustdesk.png')
     system2(
-        'cp ../res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/nccdesk.svg')
+        'cp ../res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/rustdesk.svg')
     system2(
-        'cp ../res/nccdesk.desktop tmpdeb/usr/share/applications/nccdesk.desktop')
+        'cp ../res/rustdesk.desktop tmpdeb/usr/share/applications/rustdesk.desktop')
     system2(
-        'cp ../res/nccdesk-link.desktop tmpdeb/usr/share/applications/nccdesk-link.desktop')
+        'cp ../res/rustdesk-link.desktop tmpdeb/usr/share/applications/rustdesk-link.desktop')
     system2(
-        'cp ../res/startwm.sh tmpdeb/etc/nccdesk/')
+        'cp ../res/startwm.sh tmpdeb/etc/rustdesk/')
     system2(
-        'cp ../res/xorg.conf tmpdeb/etc/nccdesk/')
+        'cp ../res/xorg.conf tmpdeb/etc/rustdesk/')
     system2(
-        'cp ../res/pam.d/nccdesk.debian tmpdeb/etc/pam.d/nccdesk')
+        'cp ../res/pam.d/rustdesk.debian tmpdeb/etc/pam.d/rustdesk')
     system2(
-        "echo \"#!/bin/sh\" >> tmpdeb/usr/share/nccdesk/files/polkit && chmod a+x tmpdeb/usr/share/nccdesk/files/polkit")
+        "echo \"#!/bin/sh\" >> tmpdeb/usr/share/rustdesk/files/polkit && chmod a+x tmpdeb/usr/share/rustdesk/files/polkit")
 
     system2('mkdir -p tmpdeb/DEBIAN')
     generate_control_file(version)
     system2('cp -a ../res/DEBIAN/* tmpdeb/DEBIAN/')
     md5_file_folder("tmpdeb/")
-    system2('dpkg-deb -b tmpdeb nccdesk.deb;')
+    system2('dpkg-deb -b tmpdeb rustdesk.deb;')
 
     system2('/bin/rm -rf tmpdeb/')
     system2('/bin/rm -rf ../res/DEBIAN/control')
-    os.rename('nccdesk.deb', '../nccdesk-%s.deb' % version)
+    os.rename('rustdesk.deb', '../rustdesk-%s.deb' % version)
     os.chdir("..")
 
 
 def build_deb_from_folder(version, binary_folder):
     os.chdir('flutter')
     system2('mkdir -p tmpdeb/usr/bin/')
-    system2('mkdir -p tmpdeb/usr/share/nccdesk')
-    system2('mkdir -p tmpdeb/usr/share/nccdesk/files/systemd/')
+    system2('mkdir -p tmpdeb/usr/share/rustdesk')
+    system2('mkdir -p tmpdeb/usr/share/rustdesk/files/systemd/')
     system2('mkdir -p tmpdeb/usr/share/icons/hicolor/256x256/apps/')
     system2('mkdir -p tmpdeb/usr/share/icons/hicolor/scalable/apps/')
     system2('mkdir -p tmpdeb/usr/share/applications/')
     system2('mkdir -p tmpdeb/usr/share/polkit-1/actions')
-    system2('rm tmpdeb/usr/bin/nccdesk || true')
+    system2('rm tmpdeb/usr/bin/rustdesk || true')
     system2(
-        f'cp -r ../{binary_folder}/* tmpdeb/usr/share/nccdesk/')
+        f'cp -r ../{binary_folder}/* tmpdeb/usr/share/rustdesk/')
     system2(
-        'cp ../res/nccdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
+        'cp ../res/rustdesk.service tmpdeb/usr/share/rustdesk/files/systemd/')
     system2(
-        'cp ../res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/nccdesk.png')
+        'cp ../res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/rustdesk.png')
     system2(
-        'cp ../res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/nccdesk.svg')
+        'cp ../res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/rustdesk.svg')
     system2(
-        'cp ../res/nccdesk.desktop tmpdeb/usr/share/applications/nccdesk.desktop')
+        'cp ../res/rustdesk.desktop tmpdeb/usr/share/applications/rustdesk.desktop')
     system2(
-        'cp ../res/nccdesk-link.desktop tmpdeb/usr/share/applications/nccdesk-link.desktop')
+        'cp ../res/rustdesk-link.desktop tmpdeb/usr/share/applications/rustdesk-link.desktop')
     system2(
-        "echo \"#!/bin/sh\" >> tmpdeb/usr/share/nccdesk/files/polkit && chmod a+x tmpdeb/usr/share/nccdesk/files/polkit")
+        "echo \"#!/bin/sh\" >> tmpdeb/usr/share/rustdesk/files/polkit && chmod a+x tmpdeb/usr/share/rustdesk/files/polkit")
 
     system2('mkdir -p tmpdeb/DEBIAN')
     generate_control_file(version)
     system2('cp -a ../res/DEBIAN/* tmpdeb/DEBIAN/')
     md5_file_folder("tmpdeb/")
-    system2('dpkg-deb -b tmpdeb nccdesk.deb;')
+    system2('dpkg-deb -b tmpdeb rustdesk.deb;')
 
     system2('/bin/rm -rf tmpdeb/')
     system2('/bin/rm -rf ../res/DEBIAN/control')
-    os.rename('nccdesk.deb', '../nccdesk-%s.deb' % version)
+    os.rename('rustdesk.deb', '../rustdesk-%s.deb' % version)
     os.chdir("..")
 
 
@@ -408,14 +408,14 @@ def build_flutter_dmg(version, features):
             f'MACOSX_DEPLOYMENT_TARGET=10.14 cargo build --features {features} --release')
     # copy dylib
     system2(
-        "cp target/release/liblibnccdesk.dylib target/release/libnccdesk.dylib")
+        "cp target/release/liblibrustdesk.dylib target/release/librustdesk.dylib")
     os.chdir('flutter')
     system2('flutter build macos --release')
-    system2('cp -rf ../target/release/service ./build/macos/Build/Products/Release/NccDesk.app/Contents/MacOS/')
+    system2('cp -rf ../target/release/service ./build/macos/Build/Products/Release/RustDesk.app/Contents/MacOS/')
     '''
     system2(
-        "create-dmg --volname \"NccDesk Installer\" --window-pos 200 120 --window-size 800 400 --icon-size 100 --app-drop-link 600 185 --icon NccDesk.app 200 190 --hide-extension NccDesk.app nccdesk.dmg ./build/macos/Build/Products/Release/NccDesk.app")
-    os.rename("nccdesk.dmg", f"../nccdesk-{version}.dmg")
+        "create-dmg --volname \"RustDesk Installer\" --window-pos 200 120 --window-size 800 400 --icon-size 100 --app-drop-link 600 185 --icon RustDesk.app 200 190 --hide-extension RustDesk.app rustdesk.dmg ./build/macos/Build/Products/Release/RustDesk.app")
+    os.rename("rustdesk.dmg", f"../rustdesk-{version}.dmg")
     '''
     os.chdir("..")
 
@@ -426,7 +426,7 @@ def build_flutter_arch_manjaro(version, features):
     ffi_bindgen_function_refactor()
     os.chdir('flutter')
     system2('flutter build linux --release')
-    system2(f'strip {flutter_build_dir}/lib/libnccdesk.so')
+    system2(f'strip {flutter_build_dir}/lib/librustdesk.so')
     os.chdir('../res')
     system2('HBB=`pwd`/.. FLUTTER=1 makepkg -f')
 
@@ -434,7 +434,7 @@ def build_flutter_arch_manjaro(version, features):
 def build_flutter_windows(version, features, skip_portable_pack):
     if not skip_cargo:
         system2(f'cargo build --features {features} --lib --release')
-        if not os.path.exists("target/release/libnccdesk.dll"):
+        if not os.path.exists("target/release/librustdesk.dll"):
             print("cargo build failed, please check rust source code.")
             exit(-1)
     os.chdir('flutter')
@@ -447,19 +447,19 @@ def build_flutter_windows(version, features, skip_portable_pack):
     os.chdir('libs/portable')
     system2('pip3 install -r requirements.txt')
     system2(
-        f'python3 ./generate.py -f ../../{flutter_build_dir_2} -o . -e ../../{flutter_build_dir_2}/nccdesk.exe')
+        f'python3 ./generate.py -f ../../{flutter_build_dir_2} -o . -e ../../{flutter_build_dir_2}/rustdesk.exe')
     os.chdir('../..')
-    if os.path.exists('./nccdesk_portable.exe'):
-        os.replace('./target/release/nccdesk-portable-packer.exe',
-                   './nccdesk_portable.exe')
+    if os.path.exists('./rustdesk_portable.exe'):
+        os.replace('./target/release/rustdesk-portable-packer.exe',
+                   './rustdesk_portable.exe')
     else:
-        os.rename('./target/release/nccdesk-portable-packer.exe',
-                  './nccdesk_portable.exe')
+        os.rename('./target/release/rustdesk-portable-packer.exe',
+                  './rustdesk_portable.exe')
     print(
-        f'output location: {os.path.abspath(os.curdir)}/nccdesk_portable.exe')
-    os.rename('./nccdesk_portable.exe', f'./nccdesk-{version}-install.exe')
+        f'output location: {os.path.abspath(os.curdir)}/rustdesk_portable.exe')
+    os.rename('./rustdesk_portable.exe', f'./rustdesk-{version}-install.exe')
     print(
-        f'output location: {os.path.abspath(os.curdir)}/nccdesk-{version}-install.exe')
+        f'output location: {os.path.abspath(os.curdir)}/rustdesk-{version}-install.exe')
 
 
 def main():
@@ -496,23 +496,23 @@ def main():
             build_flutter_windows(version, features, args.skip_portable_pack)
             return
         system2('cargo build --release --features ' + features)
-        # system2('upx.exe target/release/nccdesk.exe')
-        system2('mv target/release/nccdesk.exe target/release/NccDesk.exe')
+        # system2('upx.exe target/release/rustdesk.exe')
+        system2('mv target/release/rustdesk.exe target/release/RustDesk.exe')
         pa = os.environ.get('P')
         if pa:
             # https://certera.com/kb/tutorial-guide-for-safenet-authentication-client-for-code-signing/
             system2(
                 f'signtool sign /a /v /p {pa} /debug /f .\\cert.pfx /t http://timestamp.digicert.com  '
-                'target\\release\\nccdesk.exe')
+                'target\\release\\rustdesk.exe')
         else:
             print('Not signed')
         system2(
-            f'cp -rf target/release/NccDesk.exe {res_dir}')
+            f'cp -rf target/release/RustDesk.exe {res_dir}')
         os.chdir('libs/portable')
         system2('pip3 install -r requirements.txt')
         system2(
-            f'python3 ./generate.py -f ../../{res_dir} -o . -e ../../{res_dir}/nccdesk-{version}-win7-install.exe')
-        system2('mv ../../{res_dir}/nccdesk-{version}-win7-install.exe ../..')
+            f'python3 ./generate.py -f ../../{res_dir} -o . -e ../../{res_dir}/rustdesk-{version}-win7-install.exe')
+        system2('mv ../../{res_dir}/rustdesk-{version}-win7-install.exe ../..')
     elif os.path.isfile('/usr/bin/pacman'):
         # pacman -S -needed base-devel
         system2("sed -i 's/pkgver=.*/pkgver=%s/g' res/PKGBUILD" % version)
@@ -521,32 +521,32 @@ def main():
         else:
             system2('cargo build --release --features ' + features)
             system2('git checkout src/ui/common.tis')
-            system2('strip target/release/nccdesk')
+            system2('strip target/release/rustdesk')
             system2('ln -s res/pacman_install && ln -s res/PKGBUILD')
             system2('HBB=`pwd` makepkg -f')
-        system2('mv nccdesk-%s-0-x86_64.pkg.tar.zst nccdesk-%s-manjaro-arch.pkg.tar.zst' % (
+        system2('mv rustdesk-%s-0-x86_64.pkg.tar.zst rustdesk-%s-manjaro-arch.pkg.tar.zst' % (
             version, version))
-        # pacman -U ./nccdesk.pkg.tar.zst
+        # pacman -U ./rustdesk.pkg.tar.zst
     elif os.path.isfile('/usr/bin/yum'):
         system2('cargo build --release --features ' + features)
-        system2('strip target/release/nccdesk')
+        system2('strip target/release/rustdesk')
         system2(
             "sed -i 's/Version:    .*/Version:    %s/g' res/rpm.spec" % version)
         system2('HBB=`pwd` rpmbuild -ba res/rpm.spec')
         system2(
-            'mv $HOME/rpmbuild/RPMS/x86_64/nccdesk-%s-0.x86_64.rpm ./nccdesk-%s-fedora28-centos8.rpm' % (
+            'mv $HOME/rpmbuild/RPMS/x86_64/rustdesk-%s-0.x86_64.rpm ./rustdesk-%s-fedora28-centos8.rpm' % (
                 version, version))
-        # yum localinstall nccdesk.rpm
+        # yum localinstall rustdesk.rpm
     elif os.path.isfile('/usr/bin/zypper'):
         system2('cargo build --release --features ' + features)
-        system2('strip target/release/nccdesk')
+        system2('strip target/release/rustdesk')
         system2(
             "sed -i 's/Version:    .*/Version:    %s/g' res/rpm-suse.spec" % version)
         system2('HBB=`pwd` rpmbuild -ba res/rpm-suse.spec')
         system2(
-            'mv $HOME/rpmbuild/RPMS/x86_64/nccdesk-%s-0.x86_64.rpm ./nccdesk-%s-suse.rpm' % (
+            'mv $HOME/rpmbuild/RPMS/x86_64/rustdesk-%s-0.x86_64.rpm ./rustdesk-%s-suse.rpm' % (
                 version, version))
-        # yum localinstall nccdesk.rpm
+        # yum localinstall rustdesk.rpm
     else:
         if flutter:
             if osx:
@@ -554,15 +554,15 @@ def main():
                 pass
             else:
                 # system2(
-                #     'mv target/release/bundle/deb/nccdesk*.deb ./flutter/nccdesk.deb')
+                #     'mv target/release/bundle/deb/rustdesk*.deb ./flutter/rustdesk.deb')
                 build_flutter_deb(version, features)
         else:
             system2('cargo bundle --release --features ' + features)
             if osx:
                 system2(
-                    'strip target/release/bundle/osx/NccDesk.app/Contents/MacOS/nccdesk')
+                    'strip target/release/bundle/osx/RustDesk.app/Contents/MacOS/rustdesk')
                 system2(
-                    'cp libsciter.dylib target/release/bundle/osx/NccDesk.app/Contents/MacOS/')
+                    'cp libsciter.dylib target/release/bundle/osx/RustDesk.app/Contents/MacOS/')
                 # https://github.com/sindresorhus/create-dmg
                 system2('/bin/rm -rf *.dmg')
                 pa = os.environ.get('P')
@@ -570,65 +570,65 @@ def main():
                     system2('''
     # buggy: rcodesign sign ... path/*, have to sign one by one
     # install rcodesign via cargo install apple-codesign
-    #rcodesign sign --p12-file ~/.p12/nccdesk-developer-id.p12 --p12-password-file ~/.p12/.cert-pass --code-signature-flags runtime ./target/release/bundle/osx/NccDesk.app/Contents/MacOS/nccdesk
-    #rcodesign sign --p12-file ~/.p12/nccdesk-developer-id.p12 --p12-password-file ~/.p12/.cert-pass --code-signature-flags runtime ./target/release/bundle/osx/NccDesk.app/Contents/MacOS/libsciter.dylib
-    #rcodesign sign --p12-file ~/.p12/nccdesk-developer-id.p12 --p12-password-file ~/.p12/.cert-pass --code-signature-flags runtime ./target/release/bundle/osx/NccDesk.app
+    #rcodesign sign --p12-file ~/.p12/rustdesk-developer-id.p12 --p12-password-file ~/.p12/.cert-pass --code-signature-flags runtime ./target/release/bundle/osx/RustDesk.app/Contents/MacOS/rustdesk
+    #rcodesign sign --p12-file ~/.p12/rustdesk-developer-id.p12 --p12-password-file ~/.p12/.cert-pass --code-signature-flags runtime ./target/release/bundle/osx/RustDesk.app/Contents/MacOS/libsciter.dylib
+    #rcodesign sign --p12-file ~/.p12/rustdesk-developer-id.p12 --p12-password-file ~/.p12/.cert-pass --code-signature-flags runtime ./target/release/bundle/osx/RustDesk.app
     # goto "Keychain Access" -> "My Certificates" for below id which starts with "Developer ID Application:"
-    codesign -s "Developer ID Application: {0}" --force --options runtime  ./target/release/bundle/osx/NccDesk.app/Contents/MacOS/*
-    codesign -s "Developer ID Application: {0}" --force --options runtime  ./target/release/bundle/osx/NccDesk.app
+    codesign -s "Developer ID Application: {0}" --force --options runtime  ./target/release/bundle/osx/RustDesk.app/Contents/MacOS/*
+    codesign -s "Developer ID Application: {0}" --force --options runtime  ./target/release/bundle/osx/RustDesk.app
     '''.format(pa))
                 system2(
-                    'create-dmg "NccDesk %s.dmg" "target/release/bundle/osx/NccDesk.app"' % version)
-                os.rename('NccDesk %s.dmg' %
-                          version, 'nccdesk-%s.dmg' % version)
+                    'create-dmg "RustDesk %s.dmg" "target/release/bundle/osx/RustDesk.app"' % version)
+                os.rename('RustDesk %s.dmg' %
+                          version, 'rustdesk-%s.dmg' % version)
                 if pa:
                     system2('''
     # https://pyoxidizer.readthedocs.io/en/apple-codesign-0.14.0/apple_codesign.html
     # https://pyoxidizer.readthedocs.io/en/stable/tugger_code_signing.html
     # https://developer.apple.com/developer-id/
     # goto xcode and login with apple id, manager certificates (Developer ID Application and/or Developer ID Installer) online there (only download and double click (install) cer file can not export p12 because no private key)
-    #rcodesign sign --p12-file ~/.p12/nccdesk-developer-id.p12 --p12-password-file ~/.p12/.cert-pass --code-signature-flags runtime ./nccdesk-{1}.dmg
-    codesign -s "Developer ID Application: {0}" --force --options runtime ./nccdesk-{1}.dmg
+    #rcodesign sign --p12-file ~/.p12/rustdesk-developer-id.p12 --p12-password-file ~/.p12/.cert-pass --code-signature-flags runtime ./rustdesk-{1}.dmg
+    codesign -s "Developer ID Application: {0}" --force --options runtime ./rustdesk-{1}.dmg
     # https://appstoreconnect.apple.com/access/api
     # https://gregoryszorc.com/docs/apple-codesign/stable/apple_codesign_getting_started.html#apple-codesign-app-store-connect-api-key
     # p8 file is generated when you generate api key (can download only once)
-    rcodesign notary-submit --api-key-path ../.p12/api-key.json  --staple nccdesk-{1}.dmg
-    # verify:  spctl -a -t exec -v /Applications/NccDesk.app
+    rcodesign notary-submit --api-key-path ../.p12/api-key.json  --staple rustdesk-{1}.dmg
+    # verify:  spctl -a -t exec -v /Applications/RustDesk.app
     '''.format(pa, version))
                 else:
                     print('Not signed')
             else:
                 # build deb package
                 system2(
-                    'mv target/release/bundle/deb/nccdesk*.deb ./nccdesk.deb')
-                system2('dpkg-deb -R nccdesk.deb tmpdeb')
-                system2('mkdir -p tmpdeb/usr/share/nccdesk/files/systemd/')
+                    'mv target/release/bundle/deb/rustdesk*.deb ./rustdesk.deb')
+                system2('dpkg-deb -R rustdesk.deb tmpdeb')
+                system2('mkdir -p tmpdeb/usr/share/rustdesk/files/systemd/')
                 system2('mkdir -p tmpdeb/usr/share/icons/hicolor/256x256/apps/')
                 system2('mkdir -p tmpdeb/usr/share/icons/hicolor/scalable/apps/')
                 system2(
-                    'cp res/nccdesk.service tmpdeb/usr/share/nccdesk/files/systemd/')
+                    'cp res/rustdesk.service tmpdeb/usr/share/rustdesk/files/systemd/')
                 system2(
-                    'cp res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/nccdesk.png')
+                    'cp res/128x128@2x.png tmpdeb/usr/share/icons/hicolor/256x256/apps/rustdesk.png')
                 system2(
-                    'cp res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/nccdesk.svg')
+                    'cp res/scalable.svg tmpdeb/usr/share/icons/hicolor/scalable/apps/rustdesk.svg')
                 system2(
-                    'cp res/nccdesk.desktop tmpdeb/usr/share/applications/nccdesk.desktop')
+                    'cp res/rustdesk.desktop tmpdeb/usr/share/applications/rustdesk.desktop')
                 system2(
-                    'cp res/nccdesk-link.desktop tmpdeb/usr/share/applications/nccdesk-link.desktop')
-                os.system('mkdir -p tmpdeb/etc/nccdesk/')
-                os.system('cp -a res/startwm.sh tmpdeb/etc/nccdesk/')
-                os.system('mkdir -p tmpdeb/etc/X11/nccdesk/')
-                os.system('cp res/xorg.conf tmpdeb/etc/X11/nccdesk/')
+                    'cp res/rustdesk-link.desktop tmpdeb/usr/share/applications/rustdesk-link.desktop')
+                os.system('mkdir -p tmpdeb/etc/rustdesk/')
+                os.system('cp -a res/startwm.sh tmpdeb/etc/rustdesk/')
+                os.system('mkdir -p tmpdeb/etc/X11/rustdesk/')
+                os.system('cp res/xorg.conf tmpdeb/etc/X11/rustdesk/')
                 os.system('cp -a DEBIAN/* tmpdeb/DEBIAN/')
                 os.system('mkdir -p tmpdeb/etc/pam.d/')
-                os.system('cp pam.d/nccdesk.debian tmpdeb/etc/pam.d/nccdesk')
-                system2('strip tmpdeb/usr/bin/nccdesk')
-                system2('mkdir -p tmpdeb/usr/share/nccdesk')
-                system2('mv tmpdeb/usr/bin/nccdesk tmpdeb/usr/share/nccdesk/')
-                system2('cp libsciter-gtk.so tmpdeb/usr/share/nccdesk/')
+                os.system('cp pam.d/rustdesk.debian tmpdeb/etc/pam.d/rustdesk')
+                system2('strip tmpdeb/usr/bin/rustdesk')
+                system2('mkdir -p tmpdeb/usr/share/rustdesk')
+                system2('mv tmpdeb/usr/bin/rustdesk tmpdeb/usr/share/rustdesk/')
+                system2('cp libsciter-gtk.so tmpdeb/usr/share/rustdesk/')
                 md5_file_folder("tmpdeb/")
-                system2('dpkg-deb -b tmpdeb nccdesk.deb; /bin/rm -rf tmpdeb/')
-                os.rename('nccdesk.deb', 'nccdesk-%s.deb' % version)
+                system2('dpkg-deb -b tmpdeb rustdesk.deb; /bin/rm -rf tmpdeb/')
+                os.rename('rustdesk.deb', 'rustdesk-%s.deb' % version)
 
 
 def md5_file(fn):

@@ -52,10 +52,10 @@ class MultiWindowCallResult {
 /// Window Manager
 /// mainly use it in `Main Window`
 /// use it in sub window is not recommended
-class NccDeskMultiWindowManager {
-  NccDeskMultiWindowManager._();
+class RustDeskMultiWindowManager {
+  RustDeskMultiWindowManager._();
 
-  static final instance = NccDeskMultiWindowManager._();
+  static final instance = RustDeskMultiWindowManager._();
 
   final Set<int> _inactiveWindows = {};
   final Set<int> _activeWindows = {};
@@ -578,4 +578,4 @@ class NccDeskMultiWindowManager {
   }
 }
 
-final rustDeskWinManager = NccDeskMultiWindowManager.instance;
+final rustDeskWinManager = RustDeskMultiWindowManager.instance;

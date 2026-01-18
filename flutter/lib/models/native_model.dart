@@ -118,17 +118,17 @@ class PlatformFFI {
   Future<void> init(String appType) async {
     _appType = appType;
     final dylib = isAndroid
-        ? DynamicLibrary.open('libnccdesk.so')
+        ? DynamicLibrary.open('librustdesk.so')
         : isLinux
-            ? DynamicLibrary.open('libnccdesk.so')
+            ? DynamicLibrary.open('librustdesk.so')
             : isWindows
-                ? DynamicLibrary.open('libnccdesk.dll')
+                ? DynamicLibrary.open('librustdesk.dll')
                 :
                 // Use executable itself as the dynamic library for MacOS.
                 // Multiple dylib instances will cause some global instances to be invalid.
                 // eg. `lazy_static` objects in rust side, will be created more than once, which is not expected.
                 //
-                // isMacOS? DynamicLibrary.open("liblibnccdesk.dylib") :
+                // isMacOS? DynamicLibrary.open("liblibrustdesk.dylib") :
                 DynamicLibrary.process();
     debugPrint('initializing FFI $_appType');
     try {
@@ -239,10 +239,10 @@ class PlatformFFI {
   }
 
   /// Start listening to the Rust core's events and frames.
-  void _startListenEvent(RustdeskImpl nccdeskImpl) {
+  void _startListenEvent(RustdeskImpl rustdeskImpl) {
     final appType =
         _appType == kAppTypeDesktopRemote ? '$_appType,$kWindowId' : _appType;
-    var sink = nccdeskImpl.startGlobalEventStream(appType: appType);
+    var sink = rustdeskImpl.startGlobalEventStream(appType: appType);
     sink.listen((message) {
       () async {
         try {

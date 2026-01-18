@@ -26,10 +26,10 @@
 			<key>CFBundleURLIconFile</key>
 			<string></string>
 			<key>CFBundleURLName</key>
-			<string>com.carriez.nccdesk</string>
+			<string>com.carriez.rustdesk</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>nccdesk</string>
+				<string>rustdesk</string>
 			</array>
 		</dict>
 	</array>

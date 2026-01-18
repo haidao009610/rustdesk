@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../res/logo-header.svg" alt="NccDesk - Your remote desktop"><br>
+  <img src="../res/logo-header.svg" alt="RustDesk - Your remote desktop"><br>
   <a href="#free-public-servers">Servers</a> •
   <a href="#raw-steps-to-build">Build</a> •
   <a href="#how-to-build-with-docker">Docker</a> •
@@ -11,7 +11,7 @@
 
 [Discord](https://discord.gg/nDceKgxnkV) | [Twitter](https://twitter.com/rustdesk) | [Reddit](https://www.reddit.com/r/rustdesk) | [YouTube](https://www.youtube.com/@rustdesk) :تواصل معنا عبر
 
-[![NccDesk Server Pro](https://img.shields.io/badge/RustDesk%20Server%20Pro-%D8%A7%D9%84%D9%85%D9%8A%D8%B2%D8%A7%D8%AA%20%D8%A7%D9%84%D9%85%D8%AA%D9%82%D8%AF%D9%85%D8%A9-blue)](https://rustdesk.com/pricing.html)
+[![RustDesk Server Pro](https://img.shields.io/badge/RustDesk%20Server%20Pro-%D8%A7%D9%84%D9%85%D9%8A%D8%B2%D8%A7%D8%AA%20%D8%A7%D9%84%D9%85%D8%AA%D9%82%D8%AF%D9%85%D8%A9-blue)](https://rustdesk.com/pricing.html)
 
 .Rustبرنامج آخر لسطح المكتب عن بعد، مكتوب بـ
 يعمل خارج الصندوق، لا حاجة إلى إعدادات. لديك سيطرة كاملة على بياناتك، دون مخاوف بشأن الأمن. يمكنك استخدام خادم
@@ -21,9 +21,9 @@
 
 ![image](https://user-images.githubusercontent.com/71636191/171661982-430285f0-2e12-4b1d-9957-4a58e375304d.png)
 
-لمساعدتك على ذلك [`docs/CONTRIBUTING.md`](CONTRIBUTING.md) يرحب بمساهمة الجميع. اطلع على  NccDesk.
+لمساعدتك على ذلك [`docs/CONTRIBUTING.md`](CONTRIBUTING.md) يرحب بمساهمة الجميع. اطلع على  RustDesk.
 
-[**؟ NccDesk كيفية يعمل**](https://github.com/rustdesk/rustdesk/wiki/How-does-RustDesk-work%3F)
+[**؟ RustDesk كيفية يعمل**](https://github.com/rustdesk/rustdesk/wiki/How-does-RustDesk-work%3F)
 
 [**BINARY تنزيل**](https://github.com/rustdesk/rustdesk/releases)
 
@@ -104,7 +104,7 @@ cd
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 git clone https://github.com/rustdesk/rustdesk
-cd nccdesk
+cd rustdesk
 mkdir -p target/debug
 wget https://raw.githubusercontent.com/c-smile/sciter-sdk/master/bin.lnx/x64/libsciter-gtk.so
 mv libsciter-gtk.so target/debug
@@ -117,14 +117,14 @@ VCPKG_ROOT=$HOME/vcpkg cargo run
 
 ```sh
 git clone https://github.com/rustdesk/rustdesk
-cd nccdesk
-docker build -t "nccdesk-builder" .
+cd rustdesk
+docker build -t "rustdesk-builder" .
 ```
 
 ثم، في كل مرة تحتاج إلى بناء التطبيق، قم بتشغيل الأمر التالي:
 
 ```sh
-docker run --rm -it -v $PWD:/home/user/nccdesk -v nccdesk-git-cache:/home/user/.cargo/git -v nccdesk-registry-cache:/home/user/.cargo/registry -e PUID="$(id -u)" -e PGID="$(id -g)" nccdesk-builder
+docker run --rm -it -v $PWD:/home/user/rustdesk -v rustdesk-git-cache:/home/user/.cargo/git -v rustdesk-registry-cache:/home/user/.cargo/registry -e PUID="$(id -u)" -e PGID="$(id -g)" rustdesk-builder
 ```
 
 لاحظ أن البناء الأول قد يستغرق وقتًا أطول قبل تخزين التبعيات، وسيكون البناء اللاحق أسرع. بالإضافة إلى ذلك، إذا كنت بحاجة إلى تحديد وسائط مختلفة لأمر البناء، فيمكنك القيام بذلك في نهاية الأمر بوضع
@@ -134,16 +134,16 @@ docker run --rm -it -v $PWD:/home/user/nccdesk -v nccdesk-git-cache:/home/user/.
 :سيكون الملف القابل للتنفيذ الناتج متاحًا في مجلد تارغت، ويمكن تشغيله باستخدام
 
 ```sh
-target/debug/nccdesk
+target/debug/rustdesk
 ```
 
 :أو في حال قمت ببناء إصدار محسن
 
 ```sh
-target/release/nccdesk
+target/release/rustdesk
 ```
 
-NccDesk يرجى التأكد من أنك تنفذ هذه الأوامر من جذر مستودع
+RustDesk يرجى التأكد من أنك تنفذ هذه الأوامر من جذر مستودع
 وإلا فقد لا يتمكن التطبيق من العثور على الموارد المطلوبة. لاحظ أيضًا أن الأوامر الفرعية الأخرى مثل
 `install` أو `run`
 لا يتم دعمها حاليًا عبر هذه الطريقة لأنها ستقوم بتثبيت أو تشغيل البرنامج داخل الكونتاينر بدلاً من الهوست.
@@ -157,7 +157,7 @@ NccDesk يرجى التأكد من أنك تنفذ هذه الأوامر من ج
 - **[src/ui](https://github.com/rustdesk/rustdesk/tree/master/src/ui)**: واجهة المستخدم الرسومية
 - **[src/server](https://github.com/rustdesk/rustdesk/tree/master/src/server)**: خدمات الصوت/الحافظة/المدخلات/الفيديو، ووصلات الشبكة
 - **[src/client.rs](https://github.com/rustdesk/rustdesk/tree/master/src/client.rs)**: بدء اتصال متقارن
-- **[src/rendezvous_mediator.rs](https://github.com/rustdesk/rustdesk/tree/master/src/rendezvous_mediator.rs)**: أو المنقول عن بُعد (TCP hole punching) انتظر الاتصال المباشر [nccdesk-server](https://github.com/rustdesk/rustdesk-server) الإتصال ب
+- **[src/rendezvous_mediator.rs](https://github.com/rustdesk/rustdesk/tree/master/src/rendezvous_mediator.rs)**: أو المنقول عن بُعد (TCP hole punching) انتظر الاتصال المباشر [rustdesk-server](https://github.com/rustdesk/rustdesk-server) الإتصال ب
 - **[src/platform](https://github.com/rustdesk/rustdesk/tree/master/src/platform)**: رمز خاص بكل منصة
 - **[flutter](https://github.com/rustdesk/rustdesk/tree/master/flutter)**: رمز الهاتف المحمول
 - **[flutter/web/js](https://github.com/rustdesk/rustdesk/tree/master/flutter/web/js)**:Flutter  لعميل الويب الخاص ب Javascript

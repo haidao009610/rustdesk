@@ -433,7 +433,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     if (!bind.isCustomClient() &&
         updateUrl.isNotEmpty &&
         !isCardClosed &&
-        bind.mainUriPrefixSync().contains('nccdesk')) {
+        bind.mainUriPrefixSync().contains('rustdesk')) {
       final isToUpdate = (isWindows || isMacOS) && bind.mainIsInstalled();
       String btnText = isToUpdate ? 'Update' : 'Download';
       GestureTapCallback onPressed = () async {
