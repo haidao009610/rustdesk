@@ -48,7 +48,7 @@ fn main() {
     );
     let matches = App::new("nccdesk")
         .version(crate::VERSION)
-        .author("Purslane Ltd<info@rustdesk.com>")
+        .author("Purslane Ltd<info@nccdesk.com>")
         .about("NccDesk command line tool")
         .args_from_usage(&args)
         .get_matches();

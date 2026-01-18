@@ -17,7 +17,7 @@ const APP_METADATA: &[u8] = include_bytes!("../app_metadata.toml");
 const APP_METADATA: &[u8] = &[];
 const APP_METADATA_CONFIG: &str = "meta.toml";
 const META_LINE_PREFIX_TIMESTAMP: &str = "timestamp = ";
-const APP_PREFIX: &str = "nccdesk";
+const APP_PREFIX: &str = "rustdesk";
 const APPNAME_RUNTIME_ENV_KEY: &str = "RUSTDESK_APPNAME";
 #[cfg(windows)]
 const SET_FOREGROUND_WINDOW_ENV_KEY: &str = "SET_FOREGROUND_WINDOW";
@@ -187,7 +187,7 @@ fn main() {
         i += 1;
     }
     let click_setup = args.is_empty() && arg_exe.to_lowercase().ends_with("install.exe");
-    let quick_support = args.is_empty() && win::is_quick_support_exe(&arg_exe);
+    let quick_support = args.is_empty() && arg_exe.to_lowercase().ends_with("qs.exe");
 
     let mut ui = false;
     let reader = BinaryReader::default();
@@ -213,7 +213,7 @@ mod win {
 
     // Used for privacy mode(magnifier impl).
     pub const RUNTIME_BROKER_EXE: &'static str = "C:\\Windows\\System32\\RuntimeBroker.exe";
-    pub const WIN_TOPMOST_INJECTED_PROCESS_EXE: &'static str = "RuntimeBroker_nccdesk.exe";
+    pub const WIN_TOPMOST_INJECTED_PROCESS_EXE: &'static str = "RuntimeBroker_rustdesk.exe";
 
     pub(super) fn copy_runtime_broker(dir: &Path) {
         let src = RUNTIME_BROKER_EXE;
@@ -229,17 +229,9 @@ mod win {
             }
         }
         let _allow_err = Command::new("taskkill")
-            .args(&["/F", "/IM", "RuntimeBroker_nccdesk.exe"])
+            .args(&["/F", "/IM", "RuntimeBroker_rustdesk.exe"])
             .creation_flags(winapi::um::winbase::CREATE_NO_WINDOW)
             .output();
         let _allow_err = std::fs::copy(src, &format!("{}\\{}", dir.to_string_lossy(), tgt));
-    }
-
-    /// Check if the executable is a Quick Support version.
-    /// Note: This function must be kept in sync with `src/core_main.rs`.
-    #[inline]
-    pub(super) fn is_quick_support_exe(exe: &str) -> bool {
-        let exe = exe.to_lowercase();
-        exe.contains("-qs-") || exe.contains("-qs.exe") || exe.contains("_qs.exe")
     }
 }

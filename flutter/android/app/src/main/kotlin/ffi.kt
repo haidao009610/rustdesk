@@ -9,7 +9,7 @@ import com.carriez.flutter_hbb.RdClipboardManager
 
 object FFI {
     init {
-        System.loadLibrary("nccdesk")
+        System.loadLibrary("rustdesk")
     }
 
     external fun init(ctx: Context)

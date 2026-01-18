@@ -1,11 +1,11 @@
-# Contribuzione a NccDesk
+# Contribuzione a RustDesk
 
-NccDesk accoglie con favore il contributo di tutti.
+RustDesk accoglie con favore il contributo di tutti.
 Ecco le linee guida se stai pensando di aiutarci.
 
 ## Contribuzione
 
-I contributi a NccDesk o alle sue dipendenze dovrebbero essere forniti sotto forma di richieste pull GitHub. 
+I contributi a RustDesk o alle sue dipendenze dovrebbero essere forniti sotto forma di richieste pull GitHub. 
 Ogni richiesta pull verrà esaminata da un collaboratore principale (qualcuno con il permesso di applicare) ed è abilitato all'uso dell'albero principale o dare un feedback per le modifiche che sarebbero necessarie. 
 Tutti i contributi dovrebbero seguire questo formato, anche quelli dei contributori principali.
 
@@ -34,4 +34,4 @@ https://github.com/rustdesk/rustdesk/blob/master/docs/CODE_OF_CONDUCT-IT.md
 
 ## Comunicazioni
 
-I contributori di NccDesk frequentano [Discord](https://discord.gg/nDceKgxnkV).
+I contributori di RustDesk frequentano [Discord](https://discord.gg/nDceKgxnkV).

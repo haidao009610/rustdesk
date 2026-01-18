@@ -578,4 +578,4 @@ class NccDeskMultiWindowManager {
   }
 }
 
-final rustDeskWinManager = NccDeskMultiWindowManager.instance;
+final nccDeskWinManager = NccDeskMultiWindowManager.instance;

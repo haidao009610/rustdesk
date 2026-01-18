@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "$HOME"/nccdesk || exit 1
+cd "$HOME"/rustdesk || exit 1
 # shellcheck source=/dev/null
 . "$HOME"/.cargo/env
 

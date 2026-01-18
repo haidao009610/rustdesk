@@ -1,16 +1,16 @@
 #include <dlfcn.h>
 #include "my_application.h"
 
-#define RUSTDESK_LIB_PATH "libnccdesk.so"
-typedef bool (*NccDeskCoreMain)();
+#define RUSTDESK_LIB_PATH "librustdesk.so"
+typedef bool (*RustDeskCoreMain)();
 bool gIsConnectionManager = false;
 
 void print_help_install_pkg(const char* so);
 
-bool flutter_nccdesk_core_main() {
-   void* libnccdesk = dlopen(RUSTDESK_LIB_PATH, RTLD_LAZY);
-   if (!libnccdesk) {
-      fprintf(stderr,"Failed to load \"libnccdesk.so\"\n");
+bool flutter_rustdesk_core_main() {
+   void* librustdesk = dlopen(RUSTDESK_LIB_PATH, RTLD_LAZY);
+   if (!librustdesk) {
+      fprintf(stderr,"Failed to load \"librustdesk.so\"\n");
       char* error;
       if ((error = dlerror()) != nullptr) {
         fprintf(stderr, "%s\n", error);
@@ -24,17 +24,17 @@ bool flutter_nccdesk_core_main() {
       }
      return false;
    }
-   auto core_main = (NccDeskCoreMain) dlsym(libnccdesk,"nccdesk_core_main");
+   auto core_main = (RustDeskCoreMain) dlsym(librustdesk,"rustdesk_core_main");
    char* error;
    if ((error = dlerror()) != nullptr) {
-       fprintf(stderr, "Program entry \"nccdesk_core_main\" is not found: %s\n", error);
+       fprintf(stderr, "Program entry \"rustdesk_core_main\" is not found: %s\n", error);
        return false;
    }
    return core_main();
 }
 
 int main(int argc, char** argv) {
-  if (!flutter_nccdesk_core_main()) {
+  if (!flutter_rustdesk_core_main()) {
       return 0;
   }
   for (int i = 0; i < argc; i++) {

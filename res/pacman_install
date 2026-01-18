@@ -5,37 +5,37 @@
 # arg 1:  the new package version
 post_install() {
 	# do something here
-	cp /usr/share/nccdesk/files/rustdesk.service /etc/systemd/system/rustdesk.service
-	cp /usr/share/nccdesk/files/rustdesk.desktop /usr/share/applications/
-	cp /usr/share/nccdesk/files/rustdesk-link.desktop /usr/share/applications/
+	cp /usr/share/rustdesk/files/rustdesk.service /etc/systemd/system/rustdesk.service
+	cp /usr/share/rustdesk/files/rustdesk.desktop /usr/share/applications/
+	cp /usr/share/rustdesk/files/rustdesk-link.desktop /usr/share/applications/
 	systemctl daemon-reload
-	systemctl enable nccdesk
-	systemctl start nccdesk
+	systemctl enable rustdesk
+	systemctl start rustdesk
 	update-desktop-database
 }
 
 # arg 1:  the new package version
 # arg 2:  the old package version
 pre_upgrade() {
-    systemctl stop nccdesk || true
+    systemctl stop rustdesk || true
 }
 
 # arg 1:  the new package version
 # arg 2:  the old package version
 post_upgrade() {
-	cp /usr/share/nccdesk/files/rustdesk.service /etc/systemd/system/rustdesk.service
-	cp /usr/share/nccdesk/files/rustdesk.desktop /usr/share/applications/
-	cp /usr/share/nccdesk/files/rustdesk-link.desktop /usr/share/applications/
+	cp /usr/share/rustdesk/files/rustdesk.service /etc/systemd/system/rustdesk.service
+	cp /usr/share/rustdesk/files/rustdesk.desktop /usr/share/applications/
+	cp /usr/share/rustdesk/files/rustdesk-link.desktop /usr/share/applications/
 	systemctl daemon-reload
-	systemctl enable nccdesk
-	systemctl start nccdesk
+	systemctl enable rustdesk
+	systemctl start rustdesk
 	update-desktop-database
 }
 
 # arg 1:  the old package version
 pre_remove() {
-	systemctl stop nccdesk || true
-	systemctl disable nccdesk || true
+	systemctl stop rustdesk || true
+	systemctl disable rustdesk || true
 	rm /etc/systemd/system/rustdesk.service || true
 }
 

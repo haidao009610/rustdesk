@@ -239,7 +239,7 @@ class PlatformFFI {
   }
 
   /// Start listening to the Rust core's events and frames.
-  void _startListenEvent(RustdeskImpl nccdeskImpl) {
+  void _startListenEvent(NccdeskImpl nccdeskImpl) {
     final appType =
         _appType == kAppTypeDesktopRemote ? '$_appType,$kWindowId' : _appType;
     var sink = nccdeskImpl.startGlobalEventStream(appType: appType);
