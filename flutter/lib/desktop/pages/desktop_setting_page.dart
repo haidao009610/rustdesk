@@ -473,8 +473,9 @@ class _GeneralState extends State<_General> {
   }
 
   Widget other() {
+    // 移除对自定义客户端的检查，让自定义客户端也能显示自动更新选项
     final showAutoUpdate =
-        isWindows && bind.mainIsInstalled() && !bind.isCustomClient();
+        isWindows && bind.mainIsInstalled();
     final children = <Widget>[
       if (!isWeb && !bind.isIncomingOnly())
         _OptionCheckBox(context, 'Confirm before closing multiple tabs',

@@ -120,7 +120,10 @@ fn start_auto_update_check_(rx_msg: Receiver<UpdateMsg>) {
 fn check_update(manually: bool) -> ResultType<()> {
     #[cfg(target_os = "windows")]
     let is_msi = crate::platform::is_msi_installed()?;
-    if !(manually || config::Config::get_bool_option(config::keys::OPTION_ALLOW_AUTO_UPDATE)) {
+    // 检查自动更新选项，如果未设置则默认启用
+    let allow_auto_update = config::Config::get_option(config::keys::OPTION_ALLOW_AUTO_UPDATE);
+    let should_update = manually || allow_auto_update.is_empty() || config::Config::get_bool_option(config::keys::OPTION_ALLOW_AUTO_UPDATE);
+    if !should_update {
         return Ok(());
     }
     if !do_check_software_update().is_ok() {
